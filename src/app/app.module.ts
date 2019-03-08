@@ -14,7 +14,7 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { DeviceEditComponent } from './devices/edit/device-edit.component';
-import { DeviceListComponent } from './devices/list/list.component';
+import { DeviceListComponent } from './devices/list/device-list.component';
 
 @NgModule({
   declarations: [

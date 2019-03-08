@@ -11,23 +11,8 @@ import { DeviceService } from '../device.service';
 })
 export class DevicesComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'name', 'model', 'os', 'actions'];
-  dataSource = new MatTableDataSource(DEVICES);
-
-  @ViewChild(MatSort) sort: MatSort;
-
   constructor(private deviceService: DeviceService) { }
 
-  ngOnInit() {
-    this.dataSource.sort = this.sort;
-  }
-
-  edit(device: Device) {
-    console.log("Edit " + device.name);
-  }
-
-  delete(device: Device) {
-    console.log("Delete " + device.name);
-  }
+  ngOnInit() { }
 
 }
