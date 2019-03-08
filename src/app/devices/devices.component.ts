@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DEVICES } from '../model/mock-devices';
 import { Device } from '../model/device'
 import { MatSort, MatTableDataSource } from '@angular/material';
+import { DeviceService } from '../device.service';
 
 @Component({
   selector: 'app-devices',
@@ -15,7 +16,7 @@ export class DevicesComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() { }
+  constructor(private deviceService: DeviceService) { }
 
   ngOnInit() {
     this.dataSource.sort = this.sort;
