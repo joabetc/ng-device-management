@@ -11,13 +11,4 @@ describe('DeviceService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return device list', (done: DoneFn) => {
-    const service: DeviceService = TestBed.get(DeviceService);
-    service.getDevices().subscribe({
-      next: (devices: Device[]) => {
-        expect(devices).toBeTruthy();
-        done();
-      }
-    })
-  })
 });
