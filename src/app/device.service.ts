@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Device } from './model/device';
-import { Observable, of } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { map } from 'rxjs/operators';
 
