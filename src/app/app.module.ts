@@ -15,6 +15,10 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { DeviceEditComponent } from './devices/edit/device-edit.component';
 import { DeviceListComponent } from './devices/list/device-list.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
+import { SignInComponent } from './auth/sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,11 @@ import { DeviceListComponent } from './devices/list/device-list.component';
     DevicesComponent,
     UsersComponent,
     DeviceEditComponent,
-    DeviceListComponent
+    DeviceListComponent,
+    ForgotPasswordComponent,
+    VerifyEmailComponent,
+    SignUpComponent,
+    SignInComponent
   ],
   imports: [
     BrowserModule,
