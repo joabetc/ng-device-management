@@ -13,6 +13,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { DeviceEditComponent } from './devices/edit/device-edit.component';
 import { DeviceListComponent } from './devices/list/device-list.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
@@ -44,7 +46,7 @@ import { AuthService } from './shared/services/auth.service';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule
   ],
-  providers: [AuthService],
+  providers: [AngularFirestore, AngularFireAuth, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
