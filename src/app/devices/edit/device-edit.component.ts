@@ -3,6 +3,11 @@ import { Device } from 'src/app/model/device';
 import { DeviceService } from 'src/app/device.service';
 import { DeviceDataService } from '../shared/device-data.service';
 
+export interface OperatingSystem {
+  value: string;
+  valueView: string
+}
+
 @Component({
   selector: 'device-edit',
   templateUrl: './device-edit.component.html',
@@ -12,6 +17,10 @@ export class DeviceEditComponent implements OnInit {
 
   device: Device;
   key: string = '';
+  operatingSystems: OperatingSystem[] = [
+    { value: 'android', valueView: 'Android' }, 
+    { value: 'ios', valueView: 'iOS'}
+  ];
 
   constructor(
     private deviceService: DeviceService, 
