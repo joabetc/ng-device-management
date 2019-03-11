@@ -1,5 +1,5 @@
 export class Device {
-  name: string;
-  model: string;
-  os: string;
+  name: string = '';
+  model: string = '';
+  os: string = '';
 }
