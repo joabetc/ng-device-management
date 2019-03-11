@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'devices', component: DevicesComponent },
   { path: 'users', component: UsersComponent },
   { path: 'sign-in', component: SignInComponent },
-  { path: 'sign-up', component: SignUpComponent },
+  { path: 'register-user', component: SignUpComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'verify-email', component: VerifyEmailComponent }
 ];
