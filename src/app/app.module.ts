@@ -22,6 +22,7 @@ import { VerifyEmailComponent } from './auth/verify-email/verify-email.component
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { AuthService } from './shared/services/auth.service';
+import { DomChangeDirective } from './shared/directives/dom-change.directive';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { AuthService } from './shared/services/auth.service';
     ForgotPasswordComponent,
     VerifyEmailComponent,
     SignUpComponent,
-    SignInComponent
+    SignInComponent,
+    DomChangeDirective
   ],
   imports: [
     BrowserModule,
