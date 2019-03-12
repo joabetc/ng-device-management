@@ -10,10 +10,11 @@
       <a class="navbar-brand" href="#">{{ title }}</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right" *ngIf="authService.isLoggedIn">
         <li><a routerLink="/dashboard">Dashboard</a></li>
         <li><a routerLink="/devices">Devices</a></li>
         <li><a routerLink="/users">Users</a></li>
+        <li><a href="#" (click)="authService.signOut()">Sign Out</a></li>
       </ul>
       <form class="navbar-form navbar-right">
         <input type="text" class="form-control" placeholder="Search...">
