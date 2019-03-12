@@ -1,7 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DEVICES } from '../model/mock-devices';
-import { Device } from '../model/device'
-import { MatSort, MatTableDataSource } from '@angular/material';
 import { DeviceService } from '../device.service';
 
 @Component({
@@ -11,8 +8,20 @@ import { DeviceService } from '../device.service';
 })
 export class DevicesComponent implements OnInit {
 
+  disableButtons: boolean = false;
+
   constructor(private deviceService: DeviceService) { }
 
   ngOnInit() { }
+
+  onDomChange($event: Event): void {
+    let element = $event.target as HTMLElement;
+    if (element.classList.contains("in") || element.classList.contains("collapsing")) {
+      this.disableButtons = true;
+    } else {
+      this.disableButtons = false;
+    }
+    console.log($event.target);
+  }
 
 }

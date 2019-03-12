@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { DEVICES } from '../../model/mock-devices';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Device } from '../../model/device'
 import { MatSort, MatTableDataSource } from '@angular/material';
 import { DeviceService } from 'src/app/device.service';
@@ -13,6 +12,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./device-list.component.scss']
 })
 export class DeviceListComponent implements OnInit {
+
+  @Input() disableButtons: boolean;
 
   displayedColumns: string[] = ['name', 'model', 'os', 'actions'];
   dataSource = new DeviceDataSource(this.deviceService);
