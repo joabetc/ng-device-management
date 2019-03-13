@@ -23,6 +23,7 @@ import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { AuthService } from './shared/services/auth.service';
 import { DomChangeDirective } from './shared/directives/dom-change.directive';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { DomChangeDirective } from './shared/directives/dom-change.directive';
     VerifyEmailComponent,
     SignUpComponent,
     SignInComponent,
-    DomChangeDirective
+    DomChangeDirective,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
