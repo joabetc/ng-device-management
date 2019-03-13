@@ -14,13 +14,18 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Action</th>
     <td mat-cell *matCellDef="let device">
-      <div class="btn-group" role="group" aria-label="...">
+      <div class="btn-group hidden-md hidden-lg pull-right" role="group" aria-label="...">
+        <button type="button" class="btn btn-warning" (click)="edit(device, device.key)" data-toggle="collapse" 
+            data-target="#form-device" [disabled]="disableButtons">.</button>
+        <button type="button" class="btn btn-danger" (click)="delete(device.key)" [disabled]="disableButtons">.</button>
+      </div>
+      <div class="btn-group hidden-sm hidden-xs pull-right" role="group" aria-label="...">
         <button type="button" class="btn btn-warning" (click)="edit(device, device.key)" data-toggle="collapse" 
             data-target="#form-device" [disabled]="disableButtons">Edit</button>
         <button type="button" class="btn btn-danger" (click)="delete(device.key)" [disabled]="disableButtons">Delete</button>
       </div>
     </td>
   </ng-container>
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-header-row *matHeaderRowDef="getDisplayedColumns();"></tr>
+  <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
 </table>
