@@ -12,7 +12,7 @@ describe('MessagesService', () => {
 
   it('should add messages', () => {
     const service: MessagesService = TestBed.get(MessagesService);
-    service.add('Error');
+    service.addError('Error');
     expect(service.messages.length).toBeGreaterThan(0);
   })
 });
