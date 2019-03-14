@@ -3,6 +3,7 @@ import { Device } from '../../model/device'
 import { MatSort, MatTableDataSource } from '@angular/material';
 import { DeviceService } from 'src/app/device.service';
 import { DeviceDataService } from '../shared/device-data.service';
+import { DeviceWithId } from 'src/app/model/device-with-id';
 
 @Component({
   selector: 'device-list',
@@ -14,7 +15,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
   @Input() disableButtons: boolean;
 
   displayedColumns: string[] = ['name', 'model', 'os', 'actions'];
-  dataSource = new MatTableDataSource<Device>();
+  dataSource = new MatTableDataSource<DeviceWithId>();
 
   columnDefinitions = [
     { def: 'name', showMobile: true },
@@ -47,7 +48,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
 
   getAllDevices() {
     this.deviceService.getAll().subscribe(res => {
-      this.dataSource.data = res as Device[];
+      this.dataSource.data = res as DeviceWithId[];
     })
   }
 
