@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild, Input, AfterViewInit, HostListener } from '@angular/core';
 import { Device } from '../../model/device'
-import { MatSort, MatTableDataSource } from '@angular/material';
+import { MatSort, MatTableDataSource, MatIconRegistry } from '@angular/material';
 import { DeviceService } from 'src/app/device.service';
 import { DeviceDataService } from '../shared/device-data.service';
+import { DeviceWithId } from 'src/app/model/device-with-id';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'device-list',
@@ -14,12 +16,12 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
   @Input() disableButtons: boolean;
 
   displayedColumns: string[] = ['name', 'model', 'os', 'actions'];
-  dataSource = new MatTableDataSource<Device>();
+  dataSource = new MatTableDataSource<DeviceWithId>();
 
   columnDefinitions = [
     { def: 'name', showMobile: true },
     { def: 'model', showMobile: false },
-    { def: 'os', showMobile: true },
+    { def: 'os', showMobile: false },
     { def: 'actions', showMobile: true }
   ]
 
@@ -29,7 +31,16 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
 
   constructor(
     private deviceService: DeviceService,
-    private deviceDataService: DeviceDataService) { }
+    private deviceDataService: DeviceDataService,
+    private iconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer) {
+      iconRegistry.addSvgIcon(
+        'android',
+        sanitizer.bypassSecurityTrustResourceUrl('/assets/img/android_robot.svg'));
+      iconRegistry.addSvgIcon(
+        'ios',
+        sanitizer.bypassSecurityTrustResourceUrl('/assets/img/apple_logo_black.svg'));
+    }
 
   ngOnInit() {
     this.getAllDevices();
@@ -47,7 +58,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
 
   getAllDevices() {
     this.deviceService.getAll().subscribe(res => {
-      this.dataSource.data = res as Device[];
+      this.dataSource.data = res as DeviceWithId[];
     })
   }
 
@@ -60,7 +71,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
   }
 
   getDisplayedColumns(): string[] {
-    const isMobile = this.innerWidth < 768;
+    const isMobile = this.innerWidth < 425;
     return this.columnDefinitions
       .filter(cd => !isMobile || cd.showMobile)
       .map(cd => cd.def);
