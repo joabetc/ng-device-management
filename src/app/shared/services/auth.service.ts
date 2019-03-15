@@ -3,6 +3,8 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { User } from '../model/user';
+import { UserService } from 'src/app/user.service';
+import { MessagesService } from './messages.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,9 @@ export class AuthService {
     public afs: AngularFirestore,
     public afAuth: AngularFireAuth,
     public router: Router,
-    public ngZone: NgZone
+    public ngZone: NgZone,
+    private userService: UserService,
+    private messageService: MessagesService
   ) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
@@ -36,16 +40,26 @@ export class AuthService {
         });
         this.setUserData(result.user);
       }).catch(error => {
+        this.messageService.addError(`An unexpected error has ocurred while trying to sign in with e-mail: ${email}!`);
         console.error(error);
       });
-  }
-
-  signUp(email, password) {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+    }
+    
+    signUp(name, email, password) {
+      return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
       .then(result => {
         this.sendVerificationMail();
         this.setUserData(result.user);
+        this.afAuth.auth.currentUser.updateProfile({ displayName: name});
+        let user: User = {
+          uid: result.user.uid,
+          displayName: name,
+          email: result.user.email,
+          emailVerified: result.user.emailVerified
+        }
+        this.userService.insert(user);
       }).catch(error => {
+        this.messageService.addError(`An unexpected error has ocurred while trying to sign up!`);
         console.error(error);
       })
   }
@@ -60,10 +74,11 @@ export class AuthService {
   forgotPassword(passwordResetEmail) {
     return this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail)
       .then(() => {
-        window.alert('Password reset email sent, check your indbox');
+        this.messageService.addInfo('Password reset email sent, check your indbox!');
       }).catch(error => {
+        this.messageService.addError(`And unexpected error has ocurred!`);
         console.error(error);
-      })
+      });
   }
 
   get isLoggedIn(): boolean {
