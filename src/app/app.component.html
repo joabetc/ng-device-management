@@ -12,6 +12,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right" *ngIf="authService.isLoggedIn">
         <li><a routerLink="/dashboard">Dashboard</a></li>
+        <li><a routerLink="/reservations">Reservations</a></li>
         <li><a routerLink="/devices">Devices</a></li>
         <li><a routerLink="/users">Users</a></li>
         <li><a href="#" (click)="authService.signOut()">Sign Out</a></li>
