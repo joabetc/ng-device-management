@@ -25,6 +25,9 @@ import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { AuthService } from './shared/services/auth.service';
 import { DomChangeDirective } from './shared/directives/dom-change.directive';
 import { MessagesComponent } from './messages/messages.component';
+import { ReservationsComponent } from './reservations/reservations.component';
+import { ReservationEditComponent } from './reservations/edit/reservation-edit.component';
+import { ReservationListComponent } from './reservations/list/reservation-list.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import { MessagesComponent } from './messages/messages.component';
     SignUpComponent,
     SignInComponent,
     DomChangeDirective,
-    MessagesComponent
+    MessagesComponent,
+    ReservationsComponent,
+    ReservationEditComponent,
+    ReservationListComponent
   ],
   imports: [
     BrowserModule,
