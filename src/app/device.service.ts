@@ -17,7 +17,7 @@ export class DeviceService {
     this.db.list('device')
       .push(device)
       .then((result: any) => {
-        this.messagesServices.addSuccess(`Device ${device.name} sucessfully saved!`);
+        this.messagesServices.addSuccess(`Device "${device.name}" sucessfully saved!`);
       })
       .then((result: any) => {
         console.log(result.key);
@@ -28,7 +28,7 @@ export class DeviceService {
     this.db.list('device')
       .update(key, device)
       .catch((error: any) => {
-        this.messagesServices.addError(`An unexpected error ocurred while updating ${device.name}`);
+        this.messagesServices.addError(`An unexpected error ocurred while updating "${device.name}"`);
         console.error(error);
       })
   }
