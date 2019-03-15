@@ -1,3 +1,14 @@
-<p>
-  reservations works!
-</p>
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title pull-left">Reservation List</h3>
+      <button class="btn btn-success pull-right" data-toggle="collapse" data-target="#form-reservation" id="btnNew" [(disabled)]="disableButtons">New</button>
+      <div class="clearfix"></div>
+    </div>
+    <div class="panel-body">
+      <div id="form-reservation" class="collapse" (domChange)="onDomChange($event)">
+        <reservation-edit></reservation-edit>
+      </div>
+      <reservation-list [(disableButtons)]="disableButtons"></reservation-list>
+    </div>
+  </div>
+  
