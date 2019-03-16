@@ -13,12 +13,12 @@ export class ReservationListComponent implements OnInit {
 
   @Input() disableButtons: boolean;
 
-  displayedColumns: string[] = ['deviceId'];
+  displayedColumns: string[] = ['deviceId', 'startDate'];
   dataSource = new MatTableDataSource<ReservationTable>();
 
   columnDefinitions = [
     { def: 'deviceId', showMobile: true },
-    //{ def: 'userId', showMobile: true },
+    { def: 'startDate', showMobile: true },
     //{ def: 'startDate', showMobile: true },
     //{ def: 'endDate', showMobile: true }
   ];
