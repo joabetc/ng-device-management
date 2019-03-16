@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { Reservation } from 'src/app/model/reservation';
 import { ReservationService } from 'src/app/reservation.service';
+import { ReservationTable } from 'src/app/model/reservation-table';
 
 @Component({
   selector: 'reservation-list',
@@ -13,7 +14,7 @@ export class ReservationListComponent implements OnInit {
   @Input() disableButtons: boolean;
 
   displayedColumns: string[] = ['deviceId'];
-  dataSource = new MatTableDataSource<Reservation>();
+  dataSource = new MatTableDataSource<ReservationTable>();
 
   columnDefinitions = [
     { def: 'deviceId', showMobile: true },
@@ -40,7 +41,7 @@ export class ReservationListComponent implements OnInit {
 
   getAllReservations() {
     this.reservationService.getAll().subscribe(res => {
-      this.dataSource.data = Reservation.fromJsonArray(res);
+      this.dataSource.data = ReservationTable.fromReservationArray(res);
     })
   }
 
