@@ -8,7 +8,7 @@ export class ReservationTable {
     public endDate: Date
   ) { }
 
-  static fromReservation(reservation: Reservation) {
+  static fromReservation(reservation: Reservation): ReservationTable[] {
     let reservationTable = new Array<ReservationTable>();
     reservation.reservationOwner.map(owner => {
       reservationTable.push(new ReservationTable(
@@ -18,6 +18,14 @@ export class ReservationTable {
         owner.endDate
       ));
     });
+    return reservationTable;
+  }
+
+  static fromReservationArray(reservations: Reservation[]): ReservationTable[] {
+    let reservationTable = new Array<ReservationTable>();
+    reservations.map(reservation => {
+      reservationTable = reservationTable.concat(ReservationTable.fromReservation(reservation));
+    })
     return reservationTable;
   }
 }
