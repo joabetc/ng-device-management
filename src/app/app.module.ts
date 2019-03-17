@@ -29,6 +29,8 @@ import { ReservationsComponent } from './reservations/reservations.component';
 import { ReservationEditComponent } from './reservations/edit/reservation-edit.component';
 import { ReservationListComponent } from './reservations/list/reservation-list.component';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +59,8 @@ import { ReservationListComponent } from './reservations/list/reservation-list.c
     MatIconModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    NgbModule
   ],
   providers: [AngularFirestore, AngularFireAuth, AuthService],
   bootstrap: [AppComponent]
