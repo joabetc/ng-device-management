@@ -1,3 +1,42 @@
-<p>
-  edit works!
-</p>
+<form (ngSubmit)="onSubmit()" class="form-horizontal">
+  <div class="form-group">
+    <label for="inputName" class="col-sm-2 control-label">Name</label>
+    <div class="col-sm-10">
+      <select class="form-control" [(ngModel)]="reservation.deviceId" name="device">
+        <option *ngFor="let device of devices" [ngValue]="device.deviceId">{{device.name}} ({{device.model}})</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputModel" class="col-sm-2 control-label">Period</label>
+    <div class="col-sm-10">
+      <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+      </ngb-datepicker>
+      
+      <ng-template #t let-date let-focused="focused">
+        <span class="custom-day"
+              [class.focused]="focused"
+              [class.range]="isRange(date)"
+              [class.faded]="isHovered(date) || isInside(date)"
+              (mouseenter)="hoveredDate = date"
+              (mouseleave)="hoveredDate = null">
+          {{ date.day }}
+        </span>
+      </ng-template>
+    </div>
+  </div>
+  <!--<div class="form-group">
+    <label for="inputModel" class="col-sm-2 control-label">Operating System</label>
+    <div class="col-sm-10">
+        <select class="form-control" [(ngModel)]="device.os" name="os">
+          <option *ngFor="let os of operatingSystems" [ngValue]="os.value">{{os.valueView}}</option>
+        </select>
+    </div>
+  </div>-->
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" data-toggle="collapse" data-target="#form-reservation" class="btn btn-primary">Save</button>
+      <button type="button" data-toggle="collapse" data-target="#form-reservation" class="btn btn-default">Cancel</button>
+    </div>
+  </div>
+</form>
