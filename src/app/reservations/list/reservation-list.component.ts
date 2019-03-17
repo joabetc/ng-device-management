@@ -13,14 +13,14 @@ export class ReservationListComponent implements OnInit {
 
   @Input() disableButtons: boolean;
 
-  displayedColumns: string[] = ['deviceId', 'startDate'];
+  displayedColumns: string[] = ['deviceId', 'startDate', 'endDate', 'actions'];
   dataSource = new MatTableDataSource<ReservationTable>();
 
   columnDefinitions = [
     { def: 'deviceId', showMobile: true },
     { def: 'startDate', showMobile: true },
-    //{ def: 'startDate', showMobile: true },
-    //{ def: 'endDate', showMobile: true }
+    { def: 'endDate', showMobile: true },
+    { def: 'actions', showMobile: true }
   ];
 
   @ViewChild(MatSort) sort: MatSort;
