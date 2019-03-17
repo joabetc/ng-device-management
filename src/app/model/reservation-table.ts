@@ -1,4 +1,5 @@
 import { Reservation } from './reservation';
+import { ReservationOwner } from './reservation-owner';
 
 export class ReservationTable {
   constructor(
@@ -27,5 +28,17 @@ export class ReservationTable {
       reservationTable = reservationTable.concat(ReservationTable.fromReservation(reservation));
     })
     return reservationTable;
+  }
+
+  static toReservation(reservationTable: ReservationTable): Reservation {
+    const reservationOwner = new ReservationOwner(
+      reservationTable.userId,
+      reservationTable.startDate,
+      reservationTable.endDate
+    );
+    const reservationOwners = new Array<ReservationOwner>();
+    reservationOwners.push(reservationOwner); 
+    let reservation = new Reservation(reservationTable.deviceId, reservationOwners);
+    return reservation;
   }
 }
