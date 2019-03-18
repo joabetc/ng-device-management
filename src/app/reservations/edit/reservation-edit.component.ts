@@ -6,6 +6,7 @@ import { NgbCalendar, NgbDate, NgbDateStruct, NgbDatepicker } from '@ng-bootstra
 import { DeviceService } from 'src/app/device.service';
 import { DeviceWithId } from 'src/app/model/device-with-id';
 import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'reservation-edit',
@@ -52,7 +53,8 @@ export class ReservationEditComponent implements OnInit {
     private reservationService: ReservationService,
     private reservationDataService: ReservationDataService,
     private calendar: NgbCalendar,
-    private deviceService: DeviceService
+    private deviceService: DeviceService,
+    private authService: AuthService
   ) {
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
@@ -97,6 +99,7 @@ export class ReservationEditComponent implements OnInit {
       this.reservationService.update(
         ReservationTable.toReservation(this.reservation), this.key);
     } else {
+      this.reservation.userId = this.authService.getCurrentUser().uid;
       this.reservationService.insert(
         ReservationTable.toReservation(this.reservation));
     }
