@@ -5,6 +5,7 @@ import { ReservationDataService } from '../shared/reservation-data.service';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { DeviceService } from 'src/app/device.service';
 import { DeviceWithId } from 'src/app/model/device-with-id';
+import { NgbDateAdapter, NgbDateStruct, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'reservation-edit',
@@ -28,7 +29,11 @@ import { DeviceWithId } from 'src/app/model/device-with-id';
     .custom-day.faded {
       background-color: rgba(2, 117, 216, 0.5);
     }
-  `]
+  `],
+  providers: [{
+    provide: NgbDateAdapter,
+    useClass: NgbDateNativeAdapter
+  }]
 })
 export class ReservationEditComponent implements OnInit {
 
@@ -61,12 +66,13 @@ export class ReservationEditComponent implements OnInit {
           data.reservation.userId,
           data.reservation.startDate,
           data.reservation.endDate
-        )
+        );
+        this.key = data.key;
       }
     });
     this.deviceService.getAll().subscribe(devices => {
-    this.devices = devices as DeviceWithId[];
-    })
+      this.devices = devices as DeviceWithId[];
+    });
   }
 
   onSubmit() {
@@ -88,6 +94,8 @@ export class ReservationEditComponent implements OnInit {
       this.toDate = null;
       this.fromDate = date;
     }
+    this.reservation.startDate = new Date(this.fromDate.year, this.fromDate.month, this.fromDate.day);
+    this.reservation.endDate = new Date(this.toDate.year, this.toDate.month, this.toDate.day);
   }
 
   isHovered(date: NgbDate) {
