@@ -9,9 +9,7 @@
   </ng-container>
   <ng-container matColumnDef="endDate">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>End Date</th>
-    <td mat-cell *matCellDef="let reservation">
-      <mat-icon svgIcon="{{reservation.endDate}}"></mat-icon>
-    </td>
+    <td mat-cell *matCellDef="let reservation">{{reservation.endDate}}</td>
   </ng-container>
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Action</th>
@@ -26,9 +24,9 @@
         </button>
       </div>
       <div class="btn-group hidden-sm hidden-xs pull-right" role="group" aria-label="...">
-        <button type="button" class="btn btn-warning" (click)="edit(reservation, reservation.key)" data-toggle="collapse" 
+        <button type="button" class="btn btn-warning" (click)="edit(reservation, reservation.deviceId)" data-toggle="collapse" 
             data-target="#form-reservation" [disabled]="disableButtons">Edit</button>
-        <button type="button" class="btn btn-danger" (click)="delete(reservation.key)" [disabled]="disableButtons">Delete</button>
+        <button type="button" class="btn btn-danger" (click)="delete(reservation.deviceId)" [disabled]="disableButtons">Delete</button>
       </div>
     </td>
   </ng-container>
