@@ -100,6 +100,11 @@ export class AuthService {
     });
   }
 
+  getCurrentUser(): User {
+    const user: User = JSON.parse(localStorage.getItem('user'));
+    return user;
+  }
+
   signOut() {
     return this.afAuth.auth.signOut()
       .then(() => {
