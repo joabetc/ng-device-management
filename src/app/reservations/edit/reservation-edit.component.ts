@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReservationTable } from 'src/app/model/reservation-table';
 import { ReservationService } from 'src/app/reservation.service';
 import { ReservationDataService } from '../shared/reservation-data.service';
-import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDate, NgbDateStruct, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { DeviceService } from 'src/app/device.service';
 import { DeviceWithId } from 'src/app/model/device-with-id';
-import { NgbDateAdapter, NgbDateStruct, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'reservation-edit',
@@ -36,6 +36,7 @@ import { NgbDateAdapter, NgbDateStruct, NgbDateNativeAdapter } from '@ng-bootstr
   }]
 })
 export class ReservationEditComponent implements OnInit {
+  @ViewChild('dp') dataPicker: NgbDatepicker;
 
   hoveredDate: NgbDate;
 
@@ -70,14 +71,20 @@ export class ReservationEditComponent implements OnInit {
         this.key = data.key;
         
         const startDate = new Date(this.reservation.startDate);
-        this.fromDate.day = startDate.getDate();
-        this.fromDate.month = startDate.getMonth() + 1;
-        this.fromDate.year = startDate.getFullYear();
+        this.fromDate = NgbDate.from({
+          year: startDate.getFullYear(),
+          month: startDate.getMonth() + 1,
+          day: startDate.getDate()
+        });
 
         const endDate = new Date(this.reservation.endDate);
-        this.toDate.day = endDate.getDate();
-        this.toDate.month = endDate.getMonth() + 1;
-        this.toDate.year = endDate.getFullYear();
+        this.toDate = NgbDate.from({
+          year: endDate.getFullYear(),
+          month: endDate.getMonth() + 1,
+          day: endDate.getDate()
+        });
+
+        this.dataPicker.navigateTo(this.fromDate);
       }
     });
     this.deviceService.getAll().subscribe(devices => {
