@@ -28,12 +28,15 @@ export class ReservationService {
   }
 
   update(reservation: Reservation, key: string) {
-    this.db.list('reservation')
-      .update(key, reservation)
-      .catch((error: any) => {
-        this.messageService.addError(`An unexpected error ocurrer while updating the reservation!`);
-        console.error(error);
-      })
+    const reservationOwner = reservation.reservationOwner as ReservationOwner[];
+    reservationOwner.forEach(owner => {
+      this.db.list(`reservation/${key}`)
+        .update(owner.userId, { startDate: owner.startDate, endDate: owner.endDate })
+        .catch((error: any) => {
+          this.messageService.addError(`An unexpected error ocurrer while updating the reservation!`);
+          console.error(error);
+        })
+    })
   }
 
   getAll() {
