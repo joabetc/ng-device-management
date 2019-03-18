@@ -16,15 +16,18 @@ export class ReservationService {
   ) { }
 
   insert(reservation: Reservation) {
-    this.db.object(`reservation/${reservation.deviceId}`)
-      .set(reservation.reservationOwner)
-      .then((result: any) => {
-        this.messageService.addSuccess(`Reservation successfully created!`);
-      })
-      .catch((error: any) => {
-        this.messageService.addError(`An unexpected error ocurrer while creating the reservation!`);
-        console.error(error);
-      })
+    const reservationOwner = reservation.reservationOwner as ReservationOwner[];
+    reservationOwner.forEach(owner => {
+      this.db.list(`reservation/${reservation.deviceId}`)
+        .update(owner.userId, { startDate: owner.startDate, endDate: owner.endDate })
+        .then((result: any) => {
+          this.messageService.addSuccess(`Reservation successfully created!`);
+        })
+        .catch((error: any) => {
+          this.messageService.addError(`An unexpected error ocurrer while creating the reservation!`);
+          console.error(error);
+        });
+    });
   }
 
   update(reservation: Reservation, key: string) {
