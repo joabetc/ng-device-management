@@ -68,6 +68,16 @@ export class ReservationEditComponent implements OnInit {
           data.reservation.endDate
         );
         this.key = data.key;
+        
+        const startDate = new Date(this.reservation.startDate);
+        this.fromDate.day = startDate.getDate();
+        this.fromDate.month = startDate.getMonth() + 1;
+        this.fromDate.year = startDate.getFullYear();
+
+        const endDate = new Date(this.reservation.endDate);
+        this.toDate.day = endDate.getDate();
+        this.toDate.month = endDate.getMonth() + 1;
+        this.toDate.year = endDate.getFullYear();
       }
     });
     this.deviceService.getAll().subscribe(devices => {
