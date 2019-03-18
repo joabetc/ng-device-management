@@ -45,7 +45,7 @@ export class ReservationService {
             const data = {...c.payload.val()};
             let reservationOwners = new Array<ReservationOwner>();
             Object.keys(data).map(d => {
-              const reservationOwner = new ReservationOwner(c.payload.key, data[d].starDate, data[d].endDate);
+              const reservationOwner = new ReservationOwner(d, data[d].startDate, data[d].endDate);
               reservationOwners.push(reservationOwner);
             });
             return new Reservation(c.payload.key, reservationOwners);
