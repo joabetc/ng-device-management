@@ -41,6 +41,7 @@ export class ReservationEditComponent implements OnInit {
 
   hoveredDate: NgbDate;
   minDate: NgbDate;
+  disabledDates: NgbDateStruct[] = [];
 
   fromDate: NgbDate;
   toDate: NgbDate;
@@ -130,5 +131,9 @@ export class ReservationEditComponent implements OnInit {
 
   isRange(date: NgbDate) {
     return date.equals(this.fromDate) || date.equals(this.toDate) || this.isInside(date) || this.isHovered(date);
+  }
+
+  isDisable(date: NgbDateStruct, current: {month: number, year: number}) {
+    return this.disabledDates.find(d => new NgbDate(d.year, d.month, d.day).equals(date)) ? true : false;
   }
 }
