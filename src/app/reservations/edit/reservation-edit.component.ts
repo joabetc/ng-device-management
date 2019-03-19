@@ -40,6 +40,7 @@ export class ReservationEditComponent implements OnInit {
   @ViewChild('dp') dataPicker: NgbDatepicker;
 
   hoveredDate: NgbDate;
+  minDate: NgbDate;
 
   fromDate: NgbDate;
   toDate: NgbDate;
@@ -57,6 +58,7 @@ export class ReservationEditComponent implements OnInit {
     private authService: AuthService
   ) {
     this.fromDate = calendar.getToday();
+    this.minDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
   }
 
