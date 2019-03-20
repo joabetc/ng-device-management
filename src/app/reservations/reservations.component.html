@@ -1,10 +1,10 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title pull-left">Reservations</h3>
-      <button class="btn btn-success pull-right" data-toggle="collapse" data-target="#form-reservation" id="btnNew" [(disabled)]="disableButtons">New</button>
+<div class="card">
+    <div class="card-header">
+      <h3 class="card-title float-left">Reservations</h3>
+      <button class="btn btn-success float-right" data-toggle="collapse" data-target="#form-reservation" id="btnNew" [(disabled)]="disableButtons">New</button>
       <div class="clearfix"></div>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
       <div id="form-reservation" class="collapse" (domChange)="onDomChange($event)">
         <reservation-edit></reservation-edit>
       </div>
