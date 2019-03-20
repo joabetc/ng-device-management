@@ -17,7 +17,7 @@ export class ReservationsComponent implements OnInit {
 
   onDomChange($event: Event): void {
     let element = $event.target as HTMLElement;
-    if (element.classList.contains("in") || element.classList.contains("collapsing")) {
+    if (element.classList.contains("show") || element.classList.contains("collapsing")) {
       this.disableButtons = true;
     } else {
       this.disableButtons = false;
