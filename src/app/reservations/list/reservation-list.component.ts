@@ -1,6 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort } from '@angular/material';
-import { Reservation } from 'src/app/model/reservation';
+import { Component, OnInit, Input } from '@angular/core';
 import { ReservationService } from 'src/app/reservation.service';
 import { ReservationTable } from 'src/app/model/reservation-table';
 import { ReservationDataService } from '../shared/reservation-data.service';
@@ -14,19 +12,7 @@ export class ReservationListComponent implements OnInit {
 
   @Input() disableButtons: boolean;
 
-  displayedColumns: string[] = ['deviceId', 'startDate', 'endDate', 'actions'];
-  dataSource = new MatTableDataSource<ReservationTable>();
-
-  columnDefinitions = [
-    { def: 'deviceId', showMobile: true },
-    { def: 'startDate', showMobile: true },
-    { def: 'endDate', showMobile: true },
-    { def: 'actions', showMobile: true }
-  ];
-
-  @ViewChild(MatSort) sort: MatSort;
-
-  innerWidth: any;
+  reservations: ReservationTable[];
 
   constructor(
     private reservationService: ReservationService,
@@ -34,16 +20,12 @@ export class ReservationListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getAllReservations();
+    this.getReservations();
   }
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-  }
-  
-  getAllReservations() {
+  getReservations() {
     this.reservationService.getAll().subscribe(res => {
-      this.dataSource.data = ReservationTable.fromReservationArray(res);
+      this.reservations = ReservationTable.fromReservationArray(res);
     })
   }
   
@@ -53,16 +35,5 @@ export class ReservationListComponent implements OnInit {
 
   edit(reservation: ReservationTable, key: string) {
     this.reservatioDataService.changeReservation(reservation, key);
-  }
-
-  getDisplayedColumns(): string[] {
-    const isMobile = this.innerWidth < 425;
-    return this.columnDefinitions
-      .filter(cd => !isMobile || cd.showMobile)
-      .map(cd => cd.def);
-  }
-
-  showColumn(column: string): boolean {
-    return this.getDisplayedColumns().includes(column);
   }
 }

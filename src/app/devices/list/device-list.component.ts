@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, Input, AfterViewInit, HostListener } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Device } from '../../model/device'
-import { MatSort, MatTableDataSource, MatIconRegistry } from '@angular/material';
+import { MatIconRegistry } from '@angular/material';
 import { DeviceService } from 'src/app/device.service';
 import { DeviceDataService } from '../shared/device-data.service';
 import { DeviceWithId } from 'src/app/model/device-with-id';
@@ -11,23 +11,11 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './device-list.component.html',
   styleUrls: ['./device-list.component.scss']
 })
-export class DeviceListComponent implements OnInit, AfterViewInit {
+export class DeviceListComponent implements OnInit {
 
   @Input() disableButtons: boolean;
 
-  displayedColumns: string[] = ['name', 'model', 'os', 'actions'];
-  dataSource = new MatTableDataSource<DeviceWithId>();
-
-  columnDefinitions = [
-    { def: 'name', showMobile: true },
-    { def: 'model', showMobile: false },
-    { def: 'os', showMobile: false },
-    { def: 'actions', showMobile: true }
-  ]
-
-  @ViewChild(MatSort) sort: MatSort;
-
-  innerWidth: any;
+  devices: DeviceWithId[];
 
   constructor(
     private deviceService: DeviceService,
@@ -43,22 +31,12 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
     }
 
   ngOnInit() {
-    this.getAllDevices();
-    this.innerWidth = window.innerWidth;
+    this.getDevices();
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.innerWidth = event.target.innerWidth;
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-  }
-
-  getAllDevices() {
+  getDevices() {
     this.deviceService.getAll().subscribe(res => {
-      this.dataSource.data = res as DeviceWithId[];
+      this.devices = res as DeviceWithId[];
     })
   }
 
@@ -70,14 +48,4 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
     this.deviceDataService.changeDevice(device, key);
   }
 
-  getDisplayedColumns(): string[] {
-    const isMobile = this.innerWidth < 425;
-    return this.columnDefinitions
-      .filter(cd => !isMobile || cd.showMobile)
-      .map(cd => cd.def);
-  }
-
-  showColumn(column: string): boolean {
-    return this.getDisplayedColumns().includes(column);
-  }
 }
