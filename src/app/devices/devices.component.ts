@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DeviceService } from '../device.service';
+import { DeviceDataService } from './shared/device-data.service';
+import { Device } from '../model/device';
 
 @Component({
   selector: 'app-devices',
@@ -10,7 +12,9 @@ export class DevicesComponent implements OnInit {
 
   disableButtons: boolean = false;
 
-  constructor(private deviceService: DeviceService) { }
+  constructor(
+    private deviceService: DeviceService,
+    private deviceDataService: DeviceDataService) { }
 
   ngOnInit() { }
 
@@ -22,6 +26,10 @@ export class DevicesComponent implements OnInit {
       this.disableButtons = false;
     }
     console.log($event.target);
+  }
+  
+  newDevice() {
+    this.deviceDataService.changeDevice(new Device(), '');
   }
 
 }

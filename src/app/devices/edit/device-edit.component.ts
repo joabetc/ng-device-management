@@ -29,8 +29,8 @@ export class DeviceEditComponent implements OnInit {
   ngOnInit() {
     this.device = new Device();
     this.deviceDataService.currentDevice.subscribe(data => {
+      this.device = new Device();
       if (data.device && data.key) {
-        this.device = new Device();
         this.device.name = data.device.name;
         this.device.model = data.device.model;
         this.device.os = data.device.os;
