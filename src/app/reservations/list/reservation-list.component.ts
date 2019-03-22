@@ -25,7 +25,7 @@ export class ReservationListComponent implements OnInit {
 
   getReservations() {
     this.reservationService.getAll().subscribe(res => {
-      this.reservations = ReservationTable.fromReservationArray(res);
+      this.reservations = res as ReservationTable[];
     })
   }
   

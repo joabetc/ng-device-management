@@ -7,6 +7,7 @@ import { DeviceService } from 'src/app/device.service';
 import { DeviceWithId } from 'src/app/model/device-with-id';
 import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { Reservation } from 'src/app/model/reservation';
 
 @Component({
   selector: 'reservation-edit',
@@ -46,7 +47,7 @@ export class ReservationEditComponent implements OnInit {
   fromDate: NgbDate;
   toDate: NgbDate;
 
-  reservation: ReservationTable;
+  reservation: Reservation;
   key: string = '';
 
   devices: DeviceWithId[];
@@ -64,15 +65,14 @@ export class ReservationEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.reservation = new ReservationTable('', '', new Date(), new Date());
+    this.reservation = new Reservation();
     this.reservationDataService.currentReservation.subscribe(data => {
+      this.reservation = new Reservation();
       if (data.reservation && data.key) {
-        this.reservation = new ReservationTable(
-          data.key,
-          data.reservation.userId,
-          data.reservation.startDate,
-          data.reservation.endDate
-        );
+        this.reservation.deviceId = data.reservation.deviceId;
+        this.reservation.userId = data.reservation.userId;
+        this.reservation.startDate = new Date(data.reservation.startDate);
+        this.reservation.endDate = new Date(data.reservation.endDate);
         this.key = data.key;
         
         const startDate = new Date(this.reservation.startDate);
@@ -99,12 +99,10 @@ export class ReservationEditComponent implements OnInit {
 
   onSubmit() {
     if (this.key) {
-      this.reservationService.update(
-        ReservationTable.toReservation(this.reservation), this.key);
+      this.reservationService.update(this.reservation, this.key);
     } else {
       this.reservation.userId = this.authService.getCurrentUser().uid;
-      this.reservationService.insert(
-        ReservationTable.toReservation(this.reservation));
+      this.reservationService.insert(this.reservation);
     }
   }
 

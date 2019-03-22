@@ -16,30 +16,24 @@ export class ReservationService {
   ) { }
 
   insert(reservation: Reservation) {
-    const reservationOwner = reservation.reservationOwner as ReservationOwner[];
-    reservationOwner.forEach(owner => {
-      this.db.list(`reservation/${reservation.deviceId}`)
-        .update(owner.userId, { startDate: owner.startDate, endDate: owner.endDate })
-        .then((result: any) => {
+    this.db.list('reservation')
+      .push(reservation)
+      .then((result: any) => {
           this.messageService.addSuccess(`Reservation successfully created!`);
         })
-        .catch((error: any) => {
-          this.messageService.addError(`An unexpected error ocurrer while creating the reservation!`);
-          console.error(error);
-        });
-    });
+      .catch((error: any) => {
+        this.messageService.addError(`An unexpected error ocurrer while creating the reservation!`);
+        console.error(error);
+      });
   }
 
   update(reservation: Reservation, key: string) {
-    const reservationOwner = reservation.reservationOwner as ReservationOwner[];
-    reservationOwner.forEach(owner => {
-      this.db.list(`reservation/${key}`)
-        .update(owner.userId, { startDate: owner.startDate, endDate: owner.endDate })
-        .catch((error: any) => {
-          this.messageService.addError(`An unexpected error ocurrer while updating the reservation!`);
-          console.error(error);
-        })
-    })
+    this.db.list(`reservation/${key}`)
+      .update(key, reservation)
+      .catch((error: any) => {
+        this.messageService.addError(`An unexpected error ocurrer while updating the reservation!`);
+        console.error(error);
+      })
   }
 
   getAll() {
@@ -47,17 +41,9 @@ export class ReservationService {
       .snapshotChanges()
       .pipe(
         map(changes => {
-          return changes.map(c => {
-            const data = {...c.payload.val()};
-            let reservationOwners = new Array<ReservationOwner>();
-            Object.keys(data).map(d => {
-              const reservationOwner = new ReservationOwner(d, data[d].startDate, data[d].endDate);
-              reservationOwners.push(reservationOwner);
-            });
-            return new Reservation(c.payload.key, reservationOwners);
-          });
+          return changes.map(c => ({key: c.payload.key, ...c.payload.val() }));
         })
-      )
+      );
   }
 
   delete(key: string) {
