@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, SimpleChange, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbDatepicker, NgbDate, NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -6,7 +6,7 @@ import { NgbDatepicker, NgbDate, NgbDateStruct, NgbCalendar } from '@ng-bootstra
   templateUrl: './range-datepicker.component.html',
   styleUrls: ['./range-datepicker.component.scss']
 })
-export class RangeDatepickerComponent implements OnInit {
+export class RangeDatepickerComponent implements OnInit, OnChanges {
 
   @ViewChild('dp') dataPicker: NgbDatepicker;
 
@@ -24,13 +24,18 @@ export class RangeDatepickerComponent implements OnInit {
   toDate: NgbDate;
 
   constructor(private calendar: NgbCalendar) {
-    this.fromDate = calendar.getToday();
     this.minDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+  }
+  
+  ngOnInit() {
+    this.fromDate = this.fromNativeDate(this.from);
+    this.toDate = this.fromNativeDate(this.to);
+    this.dataPicker.navigateTo(this.fromDate);
   }
 
-  ngOnInit() {
-    this.dataPicker.navigateTo(this.fromDate);
+  ngOnChanges(changes: SimpleChanges) {
+    this.fromDate = this.fromNativeDate(changes.from.currentValue);
+    this.toDate = this.fromNativeDate(changes.to.currentValue);
   }
 
   toNativeDate(date: NgbDate): Date {
@@ -39,6 +44,15 @@ export class RangeDatepickerComponent implements OnInit {
       date.month - 1,
       date.day
     );
+  }
+
+  fromNativeDate(date: Date): NgbDate {
+    const ngdDateStruct = {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate()
+    }
+    return NgbDate.from(ngdDateStruct);
   }
 
   onDateSelection(date: NgbDate) {
@@ -68,8 +82,11 @@ export class RangeDatepickerComponent implements OnInit {
     return date.equals(this.fromDate) || date.equals(this.toDate) || this.isInside(date) || this.isHovered(date);
   }
 
-  isDisable(date: NgbDateStruct, current: {month: number, year: number}) {
+  isDisabled(date: NgbDateStruct) {
     return this.disabledDates.find(d => new NgbDate(d.year, d.month, d.day).equals(date)) ? true : false;
   }
 
+  isWeekend(date: NgbDate) {
+    return this.calendar.getWeekday(date) >= 6;
+  }
 }
