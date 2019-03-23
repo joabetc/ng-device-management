@@ -1,5 +1,4 @@
 import { Adapter } from './adapter';
-import { firestore } from 'firebase';
 import { ReservationTable } from '../model/reservation-table';
 import { DateFireTimestampAdapter } from './date-fire-timestamp.adpter';
 import { Injectable } from '@angular/core';
