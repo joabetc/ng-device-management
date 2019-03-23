@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ReservationService } from 'src/app/reservation.service';
 import { ReservationDataService } from '../shared/reservation-data.service';
 import { DeviceService } from 'src/app/device.service';
 import { DeviceWithId } from 'src/app/model/device-with-id';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Reservation } from 'src/app/model/reservation';
+import { DateRange } from 'src/app/shared/model/date-range';
 
 @Component({
   selector: 'reservation-edit',
@@ -17,6 +18,7 @@ export class ReservationEditComponent implements OnInit {
   key: string = '';
 
   devices: DeviceWithId[];
+  @Input() disabledDates: DateRange[] = [];
 
   constructor(
     private reservationService: ReservationService,

@@ -12,23 +12,15 @@ export class ReservationListComponent implements OnInit {
 
   @Input() disableButtons: boolean;
 
-  reservations: ReservationTable[];
+  @Input() reservations: ReservationTable[];
 
   constructor(
     private reservationService: ReservationService,
     private reservatioDataService: ReservationDataService
   ) { }
 
-  ngOnInit() {
-    this.getReservations();
-  }
+  ngOnInit() { }
 
-  getReservations() {
-    this.reservationService.getAll().subscribe(res => {
-      this.reservations = res as ReservationTable[];
-    })
-  }
-  
   delete(key: string) {
     this.reservationService.delete(key);
   }

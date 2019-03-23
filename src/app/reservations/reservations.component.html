@@ -7,9 +7,9 @@
     </div>
     <div class="card-body">
       <div id="form-reservation" class="collapse" (domChange)="onDomChange($event)">
-        <reservation-edit></reservation-edit>
+        <reservation-edit [disabledDates]="disabledDates"></reservation-edit>
       </div>
-      <reservation-list [(disableButtons)]="disableButtons"></reservation-list>
+      <reservation-list [reservations]="reservations" [(disableButtons)]="disableButtons"></reservation-list>
     </div>
   </div>
   

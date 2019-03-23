@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, SimpleChange, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbDatepicker, NgbDate, NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { DateStructAdapter } from '../../date-struct.adapter';
 
 @Component({
   selector: 'range-datepicker',
@@ -15,15 +16,18 @@ export class RangeDatepickerComponent implements OnInit, OnChanges {
 
   @Input() to: Date;
   @Output() toChange = new EventEmitter<Date>();
-
+  
+  @Input() disabledDates: { from: NgbDateStruct, to: NgbDateStruct }[] = [];
+  
   hoveredDate: NgbDate;
   minDate: NgbDate;
-  disabledDates: NgbDateStruct[] = [];
+  
+  fromDate: NgbDateStruct;
+  toDate: NgbDateStruct;
 
-  fromDate: NgbDate;
-  toDate: NgbDate;
-
-  constructor(private calendar: NgbCalendar) {
+  constructor(
+    private calendar: NgbCalendar,
+    private dateAdapter: DateStructAdapter) {
     this.minDate = calendar.getToday();
   }
   
@@ -35,7 +39,7 @@ export class RangeDatepickerComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.from) {
-      this.fromDate = this.fromNativeDate(changes.from.currentValue);
+      this.fromDate = this.dateAdapter.adaptFrom(changes.from.currentValue);
     }
 
     if (changes.to) {
@@ -65,13 +69,13 @@ export class RangeDatepickerComponent implements OnInit, OnChanges {
       this.fromDate = date;
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
       this.toDate = date;
-      this.to = this.toNativeDate(this.toDate);
+      this.to = this.dateAdapter.adaptTo(this.toDate);
       this.toChange.emit(this.to);
     } else {
       this.toDate = null;
       this.fromDate = date;
     }
-    this.from = this.toNativeDate(this.fromDate);
+    this.from = this.dateAdapter.adaptTo(this.fromDate);
     this.fromChange.emit(this.from);
   }
 
@@ -88,7 +92,11 @@ export class RangeDatepickerComponent implements OnInit, OnChanges {
   }
 
   isDisabled(date: NgbDateStruct) {
-    return this.disabledDates.find(d => new NgbDate(d.year, d.month, d.day).equals(date)) ? true : false;
+    return this.disabledDates.find(range => {
+      const fromDate = new NgbDate(range.from.year, range.from.month, range.from.day);
+      const toDate = new NgbDate(range.from.year, range.from.month, range.from.day);
+      return (fromDate.equals(date) || fromDate.before(date)) && (toDate.equals(date) || toDate.after(date)) ? true : false;
+    });
   }
 
   isWeekend(date: NgbDate) {
