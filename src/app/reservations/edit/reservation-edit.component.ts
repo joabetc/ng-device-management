@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReservationService } from 'src/app/reservation.service';
 import { ReservationDataService } from '../shared/reservation-data.service';
 import { DeviceService } from 'src/app/device.service';
@@ -13,7 +13,7 @@ import { Reservation } from 'src/app/model/reservation';
 })
 export class ReservationEditComponent implements OnInit {
 
-  reservation: Reservation;
+  reservation: Reservation = new Reservation();
   key: string = '';
 
   devices: DeviceWithId[];
@@ -26,19 +26,19 @@ export class ReservationEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.reservation = new Reservation();
+    this.deviceService.getAll().subscribe(devices => {
+      this.devices = devices as DeviceWithId[];
+    });
     this.reservationDataService.currentReservation.subscribe(data => {
       this.reservation = new Reservation();
+      this.key = '';
       if (data.reservation && data.key) {
         this.reservation.deviceId = data.reservation.deviceId;
         this.reservation.userId = data.reservation.userId;
-        this.reservation.startDate = new Date(data.reservation.startDate);
-        this.reservation.endDate = new Date(data.reservation.endDate);
+        this.reservation.startDate = data.reservation.startDate;
+        this.reservation.endDate = data.reservation.endDate;
         this.key = data.key;
       }
-    });
-    this.deviceService.getAll().subscribe(devices => {
-      this.devices = devices as DeviceWithId[];
     });
   }
 
