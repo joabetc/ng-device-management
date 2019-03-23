@@ -10,19 +10,7 @@
   <div class="form-group">
     <label for="inputModel" class="col-sm-2 control-label">Period</label>
     <div class="col-sm-10">
-      <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden" [minDate]="minDate">
-      </ngb-datepicker>
-      
-      <ng-template #t let-date let-focused="focused">
-        <span class="custom-day"
-              [class.focused]="focused"
-              [class.range]="isRange(date)"
-              [class.faded]="isHovered(date) || isInside(date)"
-              (mouseenter)="hoveredDate = date"
-              (mouseleave)="hoveredDate = null">
-          {{ date.day }}
-        </span>
-      </ng-template>
+      <range-datepicker [(from)]="reservation.startDate" [(to)]="reservation.endDate"></range-datepicker>
     </div>
   </div>
   <div class="form-group">

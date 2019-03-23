@@ -30,6 +30,7 @@ import { ReservationEditComponent } from './reservations/edit/reservation-edit.c
 import { ReservationListComponent } from './reservations/list/reservation-list.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RangeDatepickerComponent } from './shared/components/range-datepicker/range-datepicker.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MessagesComponent,
     ReservationsComponent,
     ReservationEditComponent,
-    ReservationListComponent
+    ReservationListComponent,
+    RangeDatepickerComponent
   ],
   imports: [
     BrowserModule,
