@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservationService } from '../reservation.service';
+import { ReservationDataService } from './shared/reservation-data.service';
+import { ReservationTable } from '../model/reservation-table';
 
 @Component({
   selector: 'app-reservations',
@@ -10,7 +12,9 @@ export class ReservationsComponent implements OnInit {
 
   disableButtons: boolean = false;
 
-  constructor(private reservationService: ReservationService) { }
+  constructor(
+    private reservationService: ReservationService,
+    private reservationDataService: ReservationDataService) { }
 
   ngOnInit() {
   }
@@ -23,5 +27,9 @@ export class ReservationsComponent implements OnInit {
       this.disableButtons = false;
     }
     console.log($event.target);
+  }
+
+  newReservation() {
+    this.reservationDataService.changeReservation(new ReservationTable(), '');
   }
 }

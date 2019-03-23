@@ -3,7 +3,8 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { MessagesService } from './shared/services/messages.service';
 import { Reservation } from './model/reservation';
 import { map } from 'rxjs/operators';
-import { ReservationOwner } from './model/reservation-owner';
+import { ReservationFireAdapter } from './shared/reservation-fire.adapter';
+import { ReservationTableFireAdapter } from './shared/reservation-table-fire.adapter';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,14 @@ export class ReservationService {
 
   constructor(
     private db: AngularFireDatabase,
-    private messageService: MessagesService
+    private messageService: MessagesService,
+    private reservationAdapter: ReservationFireAdapter,
+    private reservationTableAdapter: ReservationTableFireAdapter
   ) { }
 
   insert(reservation: Reservation) {
     this.db.list('reservation')
-      .push(reservation)
+      .push(this.reservationAdapter.adaptTo(reservation))
       .then((result: any) => {
           this.messageService.addSuccess(`Reservation successfully created!`);
         })
@@ -29,7 +32,7 @@ export class ReservationService {
 
   update(reservation: Reservation, key: string) {
     this.db.list(`reservation/${key}`)
-      .update(key, reservation)
+      .update(key, this.reservationAdapter.adaptTo(reservation))
       .catch((error: any) => {
         this.messageService.addError(`An unexpected error ocurrer while updating the reservation!`);
         console.error(error);
@@ -41,7 +44,10 @@ export class ReservationService {
       .snapshotChanges()
       .pipe(
         map(changes => {
-          return changes.map(c => ({key: c.payload.key, ...c.payload.val() }));
+          return changes.map(c => (
+            this.reservationTableAdapter.adaptFrom({ 
+              key: c.payload.key, ...c.payload.val() 
+          })));
         })
       );
   }
