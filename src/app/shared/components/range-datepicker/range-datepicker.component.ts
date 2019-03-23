@@ -34,8 +34,13 @@ export class RangeDatepickerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.fromDate = this.fromNativeDate(changes.from.currentValue);
-    this.toDate = this.fromNativeDate(changes.to.currentValue);
+    if (changes.from) {
+      this.fromDate = this.fromNativeDate(changes.from.currentValue);
+    }
+
+    if (changes.to) {
+      this.toDate = this.fromNativeDate(changes.to.currentValue);
+    }
   }
 
   toNativeDate(date: NgbDate): Date {
@@ -60,14 +65,14 @@ export class RangeDatepickerComponent implements OnInit, OnChanges {
       this.fromDate = date;
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
       this.toDate = date;
+      this.to = this.toNativeDate(this.toDate);
+      this.toChange.emit(this.to);
     } else {
       this.toDate = null;
       this.fromDate = date;
     }
     this.from = this.toNativeDate(this.fromDate);
     this.fromChange.emit(this.from);
-    this.to = this.toNativeDate(this.toDate);
-    this.toChange.emit(this.to);
   }
 
   isHovered(date: NgbDate) {
