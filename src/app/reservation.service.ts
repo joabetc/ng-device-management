@@ -31,7 +31,7 @@ export class ReservationService {
   }
 
   update(reservation: Reservation, key: string) {
-    this.db.list(`reservation/${key}`)
+    this.db.list('reservation')
       .update(key, this.reservationAdapter.adaptTo(reservation))
       .catch((error: any) => {
         this.messageService.addError(`An unexpected error ocurrer while updating the reservation!`);
