@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ReservationTable } from 'src/app/model/reservation-table';
 import { ReservationService } from 'src/app/reservation.service';
 import { ReservationDataService } from '../shared/reservation-data.service';
 import { NgbCalendar, NgbDate, NgbDateStruct, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { DeviceService } from 'src/app/device.service';
 import { DeviceWithId } from 'src/app/model/device-with-id';
-import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Reservation } from 'src/app/model/reservation';
 
@@ -31,11 +29,7 @@ import { Reservation } from 'src/app/model/reservation';
     .custom-day.faded {
       background-color: rgba(2, 117, 216, 0.5);
     }
-  `],
-  providers: [{
-    provide: NgbDateAdapter,
-    useClass: NgbDateNativeAdapter
-  }]
+  `]
 })
 export class ReservationEditComponent implements OnInit {
   @ViewChild('dp') dataPicker: NgbDatepicker;
