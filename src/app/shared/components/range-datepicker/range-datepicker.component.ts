@@ -32,8 +32,8 @@ export class RangeDatepickerComponent implements OnInit, OnChanges {
   }
   
   ngOnInit() {
-    this.fromDate = this.fromNativeDate(this.from);
-    this.toDate = this.fromNativeDate(this.to);
+    this.fromDate = this.dateAdapter.adaptFrom(this.from);
+    this.toDate = this.dateAdapter.adaptFrom(this.to);
     this.dataPicker.navigateTo(this.fromDate);
   }
 
@@ -43,25 +43,8 @@ export class RangeDatepickerComponent implements OnInit, OnChanges {
     }
 
     if (changes.to) {
-      this.toDate = this.fromNativeDate(changes.to.currentValue);
+      this.toDate = this.dateAdapter.adaptFrom(changes.to.currentValue);
     }
-  }
-
-  toNativeDate(date: NgbDate): Date {
-    return new Date(
-      date.year,
-      date.month - 1,
-      date.day
-    );
-  }
-
-  fromNativeDate(date: Date): NgbDate {
-    const ngdDateStruct = {
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate()
-    }
-    return NgbDate.from(ngdDateStruct);
   }
 
   onDateSelection(date: NgbDate) {
@@ -94,7 +77,7 @@ export class RangeDatepickerComponent implements OnInit, OnChanges {
   isDisabled(date: NgbDateStruct) {
     return this.disabledDates.find(range => {
       const fromDate = new NgbDate(range.from.year, range.from.month, range.from.day);
-      const toDate = new NgbDate(range.from.year, range.from.month, range.from.day);
+      const toDate = new NgbDate(range.to.year, range.to.month, range.to.day);
       return (fromDate.equals(date) || fromDate.before(date)) && (toDate.equals(date) || toDate.after(date)) ? true : false;
     });
   }

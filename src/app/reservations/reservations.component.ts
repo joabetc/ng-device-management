@@ -19,8 +19,7 @@ export class ReservationsComponent implements OnInit {
 
   constructor(
     private reservationService: ReservationService,
-    private reservationDataService: ReservationDataService,
-    private dateAdapter: DateStructAdapter) { }
+    private reservationDataService: ReservationDataService) { }
 
   ngOnInit() {
     this.getReservations();
@@ -29,7 +28,6 @@ export class ReservationsComponent implements OnInit {
   getReservations() {
     this.reservationService.getAll().subscribe(res => {
       this.reservations = res as ReservationTable[];
-      this.disabledDates = this.getDisabledDates();
     });
   }
 
@@ -44,14 +42,5 @@ export class ReservationsComponent implements OnInit {
 
   newReservation() {
     this.reservationDataService.changeReservation(new ReservationTable(), '');
-  }
-
-  getDisabledDates(): DateRange[] {
-    return this.reservations.map(reservation => {
-      return {
-        from: this.dateAdapter.adaptFrom(reservation.startDate),
-        to: this.dateAdapter.adaptFrom(reservation.endDate)
-      }
-    });
   }
 }

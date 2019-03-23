@@ -1,15 +1,15 @@
 <div class="card">
-    <div class="card-header">
-      <h3 class="card-title float-left">Reservations</h3>
-      <button class="btn btn-success float-right" data-toggle="collapse" data-target="#form-reservation" 
-          id="btnNew" [(disabled)]="disableButtons" (click)="newReservation()">New</button>
-      <div class="clearfix"></div>
-    </div>
-    <div class="card-body">
-      <div id="form-reservation" class="collapse" (domChange)="onDomChange($event)">
-        <reservation-edit [disabledDates]="disabledDates"></reservation-edit>
-      </div>
-      <reservation-list [reservations]="reservations" [(disableButtons)]="disableButtons"></reservation-list>
-    </div>
+  <div class="card-header">
+    <h3 class="card-title float-left">Reservations</h3>
+    <button class="btn btn-success float-right" data-toggle="collapse" data-target="#form-reservation" 
+        id="btnNew" [(disabled)]="disableButtons" (click)="newReservation()">New</button>
+    <div class="clearfix"></div>
   </div>
+  <div class="card-body">
+    <div id="form-reservation" class="collapse" (domChange)="onDomChange($event)">
+      <reservation-edit [reservations]="reservations"></reservation-edit>
+    </div>
+    <reservation-list [reservations]="reservations" [(disableButtons)]="disableButtons"></reservation-list>
+  </div>
+</div>
   
