@@ -11,7 +11,7 @@
     <tbody>
       <tr *ngFor="let reservation of reservations; index as i">
         <th scope="row">{{ i + 1}}</th>
-        <td>{{ reservation.deviceId }}</td>
+        <td>{{ reservation.deviceName }}</td>
         <td>{{ reservation.startDate | date:'mediumDate' }}</td>
         <td>{{ reservation.endDate | date:'mediumDate' }}</td>
         <td>

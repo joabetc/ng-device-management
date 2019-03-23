@@ -2,7 +2,7 @@
   <div class="form-group">
     <label for="inputName" class="col-sm-2 control-label">Name</label>
     <div class="col-sm-10">
-      <select class="form-control" [(ngModel)]="reservation.deviceId" name="device">
+      <select class="form-control" [(ngModel)]="reservation.deviceId" name="device" (ngModelChange)="onChange($event)">
         <option *ngFor="let device of devices" [ngValue]="device.key">{{device.name}} ({{device.model}})</option>
       </select>
     </div>

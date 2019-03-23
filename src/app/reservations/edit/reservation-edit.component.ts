@@ -36,7 +36,9 @@ export class ReservationEditComponent implements OnInit {
       this.key = '';
       if (data.reservation && data.key) {
         this.reservation.deviceId = data.reservation.deviceId;
+        this.reservation.deviceName = data.reservation.deviceName;
         this.reservation.userId = data.reservation.userId;
+        this.reservation.userName = data.reservation.userName;
         this.reservation.startDate = data.reservation.startDate;
         this.reservation.endDate = data.reservation.endDate;
         this.key = data.key;
@@ -49,7 +51,12 @@ export class ReservationEditComponent implements OnInit {
       this.reservationService.update(this.reservation, this.key);
     } else {
       this.reservation.userId = this.authService.getCurrentUser().uid;
+      this.reservation.userName = this.authService.getCurrentUser().displayName;
       this.reservationService.insert(this.reservation);
     }
+  }
+
+  onChange(newValue) {
+    this.reservation.deviceName = this.devices.find(device => device.key == newValue).name;
   }
 }

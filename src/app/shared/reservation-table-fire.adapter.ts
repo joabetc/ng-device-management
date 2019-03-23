@@ -16,7 +16,9 @@ export class ReservationTableFireAdapter implements Adapter<ReservationTable> {
     const reservationTable = new ReservationTable();
     reservationTable.key = item.key;
     reservationTable.deviceId = item.deviceId;
+    reservationTable.deviceName = item.deviceName;
     reservationTable.userId = item.userId;
+    reservationTable.userName = item.userName;
     reservationTable.startDate = this.dateFireTimestampAdapter.adaptTo(item.startDate);
     reservationTable.endDate = this.dateFireTimestampAdapter.adaptTo(item.endDate);
     return reservationTable;
@@ -26,7 +28,9 @@ export class ReservationTableFireAdapter implements Adapter<ReservationTable> {
     return {
       key: reservationTable.key,
       deviceId: reservationTable.deviceId,
+      deviceName: reservationTable.deviceName,
       userId: reservationTable.userId,
+      userName: reservationTable.userName,
       startDate: this.dateFireTimestampAdapter.adaptFrom(reservationTable.startDate),
       endDate: this.dateFireTimestampAdapter.adaptFrom(reservationTable.endDate)
     }
