@@ -31,6 +31,7 @@ import { ReservationListComponent } from './reservations/list/reservation-list.c
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RangeDatepickerComponent } from './shared/components/range-datepicker/range-datepicker.component';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { RangeDatepickerComponent } from './shared/components/range-datepicker/r
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    NgbModule
+    NgbModule,
+    Ng2GoogleChartsModule
   ],
   providers: [AngularFirestore, AngularFireAuth, AuthService],
   bootstrap: [AppComponent]
