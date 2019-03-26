@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Device } from './model/device';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { MessagesService } from './shared/services/messages.service';
+import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +13,7 @@ export class DeviceService {
 
   constructor(
     private db: AngularFireDatabase,
+    private afs: AngularFirestore,
     private messagesServices: MessagesService) { }
 
   insert(device: Device) {
@@ -45,5 +48,14 @@ export class DeviceService {
 
   delete(key: string) {
     this.db.object(`device/${key}`).remove();
+  }
+
+  isNameTaken(name: string) {
+    return this.afs.collection('device', ref => ref.where('deviceId', '==', name))
+      .valueChanges()
+      .pipe(
+        take(1),
+        map(arr => arr.length ? { deviceNameAvailable: false } : null)
+      )
   }
 }

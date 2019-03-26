@@ -3,10 +3,11 @@
     <label for="inputName" class="col-sm-2 control-label">Name</label>
     <div class="col-sm-10">
       <input type="text" class="form-control" id="inputName" placeholder="Name" [(ngModel)]="device.name" name="name"
-          required minlength="4" #name="ngModel" [ngModelOptions]="{updateOn: 'blur'}">
+          required minlength="4" #name="ngModel" [ngModelOptions]="{updateOn: 'blur'}" deviceNameAlreadyTaken>
       <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
         <div *ngIf="name.errors.required">Name is required.</div>
         <div *ngIf="name.errors.minlength">Name must be at least 4 characters long.</div>
+        <div *ngIf="name.errors.invalid">Name already taken.</div>
       </div>
     </div>
   </div>
