@@ -3,7 +3,7 @@ import { Device } from './model/device';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { map, take } from 'rxjs/operators';
 import { MessagesService } from './shared/services/messages.service';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
@@ -51,7 +51,7 @@ export class DeviceService {
   }
 
   isNameTaken(name: string) {
-    return this.afs.collection('device', ref => ref.where('deviceId', '==', name))
+    return this.db.list('device', ref => ref.orderByChild('name').equalTo(name))
       .valueChanges()
       .pipe(
         take(1),
