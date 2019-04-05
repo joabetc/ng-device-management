@@ -2,6 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Device } from 'src/app/model/device';
 import { DeviceService } from 'src/app/device.service';
 import { DeviceDataService } from '../shared/device-data.service';
+import { DeviceApiService } from 'src/app/device-api.service';
+import { Brand } from 'src/app/model/brand';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 export interface OperatingSystem {
   value: string;
@@ -22,12 +26,19 @@ export class DeviceEditComponent implements OnInit {
     { value: 'ios', valueView: 'iOS'}
   ];
 
+  brands: Brand[];
+  slug: string;
+
   constructor(
     private deviceService: DeviceService, 
-    private deviceDataService: DeviceDataService) { }
+    private deviceDataService: DeviceDataService,
+    private fonoApiService: DeviceApiService) { }
 
   ngOnInit() {
     this.device = new Device();
+    this.fonoApiService.getBrands().subscribe(data => {
+      this.brands = data['data']
+      });
     this.deviceDataService.currentDevice.subscribe(data => {
       this.device = new Device();
       if (data.device && data.key) {
@@ -36,7 +47,7 @@ export class DeviceEditComponent implements OnInit {
         this.device.os = data.device.os;
         this.key = data.key;
       }
-    })
+    });
   }
 
   onSubmit() {
@@ -48,4 +59,16 @@ export class DeviceEditComponent implements OnInit {
 
     this.device = new Device();
   }
+
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(term => term.length < 2 ? [] :
+        this.brands
+            .filter((brand: Brand) => brand.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
+            .slice(0, 10)
+            .map((brand: Brand) => {
+              this.slug = brand.slug;
+              return brand.name})));
 }
