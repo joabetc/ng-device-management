@@ -15,7 +15,7 @@
     <label for="typehead-http" class="col-sm-2 control-label">Brand</label>
     <div class="col-sm-10">
       <input type="text" id="typehead-http" class="form-control" [class.is-invalid]="searchFailed" [(ngModel)]="device.brand"
-          [ngbTypeahead]="search" placeholder="Brand search" name="brand">
+          [ngbTypeahead]="search" placeholder="Brand search" name="brand" (selectItem)="selectedItem($event)">
       <span *ngIf="searching">Searching...</span>
       <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded...</div>
     </div>

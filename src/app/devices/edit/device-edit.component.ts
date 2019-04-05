@@ -6,10 +6,11 @@ import { DeviceApiService } from 'src/app/device-api.service';
 import { Brand } from 'src/app/model/brand';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { ApiResult } from 'src/app/shared/model/api-result';
 
 export interface OperatingSystem {
   value: string;
-  valueView: string
+  valueView: string;
 }
 
 @Component({
@@ -20,9 +21,9 @@ export interface OperatingSystem {
 export class DeviceEditComponent implements OnInit {
 
   device: Device;
-  key: string = '';
+  key = '';
   operatingSystems: OperatingSystem[] = [
-    { value: 'android', valueView: 'Android' }, 
+    { value: 'android', valueView: 'Android' },
     { value: 'ios', valueView: 'iOS'}
   ];
 
@@ -30,14 +31,14 @@ export class DeviceEditComponent implements OnInit {
   slug: string;
 
   constructor(
-    private deviceService: DeviceService, 
+    private deviceService: DeviceService,
     private deviceDataService: DeviceDataService,
     private fonoApiService: DeviceApiService) { }
 
   ngOnInit() {
     this.device = new Device();
-    this.fonoApiService.getBrands().subscribe(data => {
-      this.brands = data['data']
+    this.fonoApiService.getBrands().subscribe((data: ApiResult) => {
+      this.brands = data.data;
       });
     this.deviceDataService.currentDevice.subscribe(data => {
       this.device = new Device();
@@ -68,7 +69,9 @@ export class DeviceEditComponent implements OnInit {
         this.brands
             .filter((brand: Brand) => brand.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
             .slice(0, 10)
-            .map((brand: Brand) => {
-              this.slug = brand.slug;
-              return brand.name})));
+            .map((brand: Brand) => brand.name)))
+
+  selectedItem(item) {
+    console.log(item.item);
+  }
 }

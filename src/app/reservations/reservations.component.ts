@@ -12,7 +12,7 @@ import { DateStructAdapter } from '../shared/date-struct.adapter';
 })
 export class ReservationsComponent implements OnInit {
 
-  disableButtons: boolean = false;
+  disableButtons = false;
 
   reservations: ReservationTable[];
   disabledDates: DateRange[] = [];
@@ -32,8 +32,8 @@ export class ReservationsComponent implements OnInit {
   }
 
   onDomChange($event: Event): void {
-    let element = $event.target as HTMLElement;
-    if (element.classList.contains("show") || element.classList.contains("collapsing")) {
+    const element = $event.target as HTMLElement;
+    if (element.classList.contains('show') || element.classList.contains('collapsing')) {
       this.disableButtons = true;
     } else {
       this.disableButtons = false;
