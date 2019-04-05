@@ -33,7 +33,7 @@ export class DeviceService {
       .catch((error: any) => {
         this.messagesServices.addError(`An unexpected error ocurred while updating "${device.name}"`);
         console.error(error);
-      })
+      });
   }
 
   getAll() {
@@ -56,6 +56,6 @@ export class DeviceService {
       .pipe(
         take(1),
         map(arr => arr.length ? { deviceNameAvailable: false } : null)
-      )
+      );
   }
 }

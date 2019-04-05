@@ -72,6 +72,6 @@ export class DeviceEditComponent implements OnInit {
             .map((brand: Brand) => brand.name)))
 
   selectedItem(item) {
-    console.log(item.item);
+    this.slug = this.brands.filter((brand: Brand) => brand.name.toLowerCase() === item.item.toLowerCase())[0].slug;
   }
 }
