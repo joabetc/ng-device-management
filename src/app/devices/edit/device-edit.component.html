@@ -12,18 +12,21 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="typehead-http" class="col-sm-2 control-label">Brand</label>
+    <label for="typehead-http-brand" class="col-sm-2 control-label">Brand</label>
     <div class="col-sm-10">
-      <input type="text" id="typehead-http" class="form-control" [class.is-invalid]="searchFailed" [(ngModel)]="device.brand"
-          [ngbTypeahead]="search" placeholder="Brand search" name="brand" (selectItem)="selectedItem($event)">
+      <input type="text" id="typehead-http-brand" class="form-control" [class.is-invalid]="searchFailed" [(ngModel)]="device.brand"
+          [ngbTypeahead]="searchBrand" placeholder="Brand search" name="brand">
       <span *ngIf="searching">Searching...</span>
       <div class="invalid-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded...</div>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputModel" class="col-sm-2 control-label">Model</label>
+    <label for="typehead-http-model" class="col-sm-2 control-label">Model</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputModel" placeholder="Model" [(ngModel)]="device.model" name="model">
+      <input type="text" id="typehead-http-model" class="form-control" [class.is-invalid]="searchFailed" [(ngModel)]="device.model"
+          [ngbTypeahead]="searchModel" placeholder="Model search" name="model">
+      <span *ngIf="modelSearching">Searching...</span>
+      <div class="invalid-feedback" *ngIf="modelSearchFailed">Sorry, suggestions could not be loaded...</div>
     </div>
   </div>
   <div class="form-group">
