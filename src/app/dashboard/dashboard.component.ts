@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 import { ReservationService } from '../reservation.service';
 import { ReservationTable } from '../model/reservation-table';
@@ -45,4 +45,8 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.timelineChart.component.draw();
+  }
 }
