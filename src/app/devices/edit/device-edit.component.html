@@ -38,7 +38,7 @@
   <div class="form-group">
     <label for="inputModel" class="col-sm-2 control-label">Operating System</label>
     <div class="col-sm-10">
-        <select class="form-control" [(ngModel)]="device.os" name="os">
+        <select class="form-control" [(ngModel)]="device.os" name="os" required>
           <option *ngFor="let os of operatingSystems" [ngValue]="os.value">{{os.valueView}}</option>
         </select>
     </div>
