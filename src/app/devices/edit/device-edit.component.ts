@@ -4,8 +4,8 @@ import { DeviceService } from 'src/app/device.service';
 import { DeviceDataService } from '../shared/device-data.service';
 import { DeviceApiService } from 'src/app/device-api.service';
 import { Brand } from 'src/app/model/brand';
-import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, tap, switchMap, catchError } from 'rxjs/operators';
 import { ApiResult } from 'src/app/shared/model/api-result';
 
 export interface OperatingSystem {
@@ -28,16 +28,17 @@ export class DeviceEditComponent implements OnInit {
   ];
 
   brands: Brand[];
-  slug: string;
+  modelSearching = false;
+  modelSearchFailed = false;
 
   constructor(
     private deviceService: DeviceService,
     private deviceDataService: DeviceDataService,
-    private fonoApiService: DeviceApiService) { }
+    private deviceApiService: DeviceApiService) { }
 
   ngOnInit() {
     this.device = new Device();
-    this.fonoApiService.getBrands().subscribe((data: ApiResult) => {
+    this.deviceApiService.getBrands().subscribe((data: ApiResult<Brand[]>) => {
       this.brands = data.data;
       });
     this.deviceDataService.currentDevice.subscribe(data => {
@@ -61,7 +62,7 @@ export class DeviceEditComponent implements OnInit {
     this.device = new Device();
   }
 
-  search = (text$: Observable<string>) =>
+  searchBrand = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
@@ -71,7 +72,19 @@ export class DeviceEditComponent implements OnInit {
             .slice(0, 10)
             .map((brand: Brand) => brand.name)))
 
-  selectedItem(item) {
-    this.slug = this.brands.filter((brand: Brand) => brand.name.toLowerCase() === item.item.toLowerCase())[0].slug;
-  }
+  searchModel = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      tap(() => this.modelSearching = true),
+      switchMap(term =>
+        this.deviceApiService.getModels(this.device.brand.toLocaleLowerCase(), term).pipe(
+          tap(() => this.modelSearchFailed = false),
+          catchError(() => {
+            this.modelSearchFailed = true;
+            return of([]);
+          }))
+      ),
+      tap(() => this.modelSearching = false)
+    )
 }

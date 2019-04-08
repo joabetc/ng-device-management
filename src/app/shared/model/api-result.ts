@@ -1,6 +1,6 @@
 import { Brand } from 'src/app/model/brand';
 
-export interface ApiResult {
-    data: Brand[];
+export interface ApiResult<T> {
+    data: T;
     error: any;
 }
