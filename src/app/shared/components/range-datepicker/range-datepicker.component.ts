@@ -16,12 +16,12 @@ export class RangeDatepickerComponent implements OnInit, OnChanges {
 
   @Input() to: Date;
   @Output() toChange = new EventEmitter<Date>();
-  
+
   @Input() disabledDates: { from: NgbDateStruct, to: NgbDateStruct }[] = [];
-  
+
   hoveredDate: NgbDate;
   minDate: NgbDate;
-  
+
   fromDate: NgbDateStruct;
   toDate: NgbDateStruct;
 
@@ -30,7 +30,7 @@ export class RangeDatepickerComponent implements OnInit, OnChanges {
     private dateAdapter: DateStructAdapter) {
     this.minDate = calendar.getToday();
   }
-  
+
   ngOnInit() {
     this.fromDate = this.dateAdapter.adaptFrom(this.from);
     this.toDate = this.dateAdapter.adaptFrom(this.to);
@@ -48,16 +48,19 @@ export class RangeDatepickerComponent implements OnInit, OnChanges {
   }
 
   onDateSelection(date: NgbDate) {
+    const validFromDate = this.isDisabled(date) ? this.nextValidDate(date) : date;
+    const validToDate = this.isDisabled(date) ? this.prevValidDate(date) : date;
     if (!this.fromDate && !this.toDate) {
-      this.fromDate = date;
+      this.fromDate = validFromDate;
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
-      this.toDate = date;
+      this.toDate = validToDate;
       this.to = this.dateAdapter.adaptTo(this.toDate);
       this.toChange.emit(this.to);
     } else {
       this.toDate = null;
-      this.fromDate = date;
+      this.fromDate = validFromDate;
     }
+
     this.from = this.dateAdapter.adaptTo(this.fromDate);
     this.fromChange.emit(this.from);
   }
@@ -84,5 +87,22 @@ export class RangeDatepickerComponent implements OnInit, OnChanges {
 
   isWeekend(date: NgbDate) {
     return this.calendar.getWeekday(date) >= 6;
+  }
+
+  nextValidDate(date: NgbDate) {
+    return this.getValidDate(date, 1);
+  }
+
+  prevValidDate(date: NgbDate) {
+    return this.getValidDate(date, -1);
+  }
+
+  getValidDate(date: NgbDate, inc: number) {
+    const iDate = this.dateAdapter.adaptTo(date);
+    while (this.isDisabled(date)) {
+      iDate.setDate(iDate.getDate() + inc);
+      date = new NgbDate(iDate.getFullYear(), iDate.getMonth() + 1, iDate.getDate());
+    }
+    return NgbDate.from(this.dateAdapter.adaptFrom(iDate));
   }
 }
