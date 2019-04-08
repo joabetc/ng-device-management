@@ -3,7 +3,6 @@ import { ReservationService } from '../reservation.service';
 import { ReservationDataService } from './shared/reservation-data.service';
 import { ReservationTable } from '../model/reservation-table';
 import { DateRange } from '../shared/model/date-range';
-import { DateStructAdapter } from '../shared/date-struct.adapter';
 
 @Component({
   selector: 'app-reservations',

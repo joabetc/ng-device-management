@@ -17,10 +17,10 @@ import { DateStructAdapter } from 'src/app/shared/date-struct.adapter';
 export class ReservationEditComponent implements OnInit {
 
   @Input() reservations: ReservationTable[];
-  
+
   disabledDates: DateRange[] = [];
   reservation: Reservation = new Reservation();
-  key: string = '';
+  key = '';
 
   devices: DeviceWithId[];
 
@@ -62,16 +62,16 @@ export class ReservationEditComponent implements OnInit {
   }
 
   onChange(newValue) {
-    this.reservation.deviceName = this.devices.find(device => device.key == newValue).name;
+    this.reservation.deviceName = this.devices.find(device => device.key === newValue).name;
     this.updateDisabledDates(newValue);
   }
 
   updateDisabledDates(key) {
-    this.disabledDates = this.reservations.filter(reservation => reservation.deviceId == key).map(reservation => {
+    this.disabledDates = this.reservations.filter(reservation => reservation.deviceId === key).map(reservation => {
       return {
         from: this.dateAdapter.adaptFrom(reservation.startDate),
         to: this.dateAdapter.adaptFrom(reservation.endDate)
-      }
-    })
+      };
+    });
   }
 }
