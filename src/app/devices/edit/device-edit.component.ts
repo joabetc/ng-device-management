@@ -78,7 +78,7 @@ export class DeviceEditComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.modelSearching = true),
       switchMap(term =>
-        this.deviceApiService.getModels(this.device.brand.toLocaleLowerCase(), term).pipe(
+        this.deviceApiService.getModels(this.device.brand, term).pipe(
           tap(() => this.modelSearchFailed = false),
           catchError(() => {
             this.modelSearchFailed = true;
