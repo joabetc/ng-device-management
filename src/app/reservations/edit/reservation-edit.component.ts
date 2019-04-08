@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ReservationService } from 'src/app/reservation.service';
 import { ReservationDataService } from '../shared/reservation-data.service';
 import { DeviceService } from 'src/app/device.service';
@@ -8,6 +8,7 @@ import { Reservation } from 'src/app/model/reservation';
 import { DateRange } from 'src/app/shared/model/date-range';
 import { ReservationTable } from 'src/app/model/reservation-table';
 import { DateStructAdapter } from 'src/app/shared/date-struct.adapter';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'reservation-edit',
@@ -18,7 +19,10 @@ export class ReservationEditComponent implements OnInit {
 
   @Input() reservations: ReservationTable[];
 
+  @ViewChild('reservationForm') reservationForm: NgForm;
+
   disabledDates: DateRange[] = [];
+  disabledSave = true;
   reservation: Reservation = new Reservation();
   key = '';
 
@@ -62,8 +66,10 @@ export class ReservationEditComponent implements OnInit {
   }
 
   onChange(newValue) {
-    this.reservation.deviceName = this.devices.find(device => device.key === newValue).name;
+    const foundDevices = this.devices.find(device => device.key === newValue);
+    this.reservation.deviceName = foundDevices !== undefined ? foundDevices.name : '';
     this.updateDisabledDates(newValue);
+    this.disableSave();
   }
 
   updateDisabledDates(key) {
@@ -73,5 +79,15 @@ export class ReservationEditComponent implements OnInit {
         to: this.dateAdapter.adaptFrom(reservation.endDate)
       };
     });
+  }
+
+  disableSave() {
+    this.disabledSave = this.reservation.deviceName.length > 0 ? false : true;
+  }
+
+  cancel() {
+    this.reservationForm.reset();
+    this.reservation = new ReservationTable();
+    this.disableSave();
   }
 }
