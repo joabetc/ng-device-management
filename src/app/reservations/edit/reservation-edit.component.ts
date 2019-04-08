@@ -22,7 +22,6 @@ export class ReservationEditComponent implements OnInit {
   @ViewChild('reservationForm') reservationForm: NgForm;
 
   disabledDates: DateRange[] = [];
-  disabledSave = true;
   reservation: Reservation = new Reservation();
   key = '';
 
@@ -69,7 +68,6 @@ export class ReservationEditComponent implements OnInit {
     const foundDevices = this.devices.find(device => device.key === newValue);
     this.reservation.deviceName = foundDevices !== undefined ? foundDevices.name : '';
     this.updateDisabledDates(newValue);
-    this.disableSave();
   }
 
   updateDisabledDates(key) {
@@ -81,13 +79,8 @@ export class ReservationEditComponent implements OnInit {
     });
   }
 
-  disableSave() {
-    this.disabledSave = this.reservation.deviceName.length > 0 ? false : true;
-  }
-
   cancel() {
     this.reservationForm.reset();
     this.reservation = new ReservationTable();
-    this.disableSave();
   }
 }
