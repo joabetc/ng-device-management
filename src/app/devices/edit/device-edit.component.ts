@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Device } from 'src/app/model/device';
 import { DeviceService } from 'src/app/device.service';
 import { DeviceDataService } from '../shared/device-data.service';
@@ -7,6 +7,7 @@ import { Brand } from 'src/app/model/brand';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, tap, switchMap, catchError } from 'rxjs/operators';
 import { ApiResult } from 'src/app/shared/model/api-result';
+import { NgForm } from '@angular/forms';
 
 export interface OperatingSystem {
   value: string;
@@ -19,6 +20,8 @@ export interface OperatingSystem {
   styleUrls: ['./device-edit.component.scss']
 })
 export class DeviceEditComponent implements OnInit {
+
+  @ViewChild('deviceForm') deviceForm: NgForm;
 
   device: Device;
   key = '';
@@ -87,4 +90,9 @@ export class DeviceEditComponent implements OnInit {
       ),
       tap(() => this.modelSearching = false)
     )
+
+  cancel(): void {
+    this.device = new Device();
+    this.deviceForm.reset();
+  }
 }
