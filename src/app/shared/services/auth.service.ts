@@ -29,56 +29,55 @@ export class AuthService {
         localStorage.setItem('user', null);
         JSON.parse(localStorage.getItem('user'));
       }
-    })
+    });
   }
 
-  signIn(email, password) {
-    return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-      .then(result => {
-        this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
-        });
-        this.setUserData(result.user);
-      }).catch(error => {
-        this.messageService.addError(`An unexpected error has ocurred while trying to sign in with e-mail: ${email}!`);
-        console.error(error);
+  async signIn(email: string, password: string) {
+    try {
+      const result = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
+      this.ngZone.run(() => {
+        this.router.navigate(['dashboard']);
       });
+      this.userService.get(result.user.uid).subscribe((user: User) => this.setUserData(user));
+    } catch (error) {
+      this.messageService.addError(`An unexpected error has ocurred while trying to sign in with e-mail: ${email}!`);
+      console.error(error);
     }
-    
-    signUp(name, email, password) {
-      return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-      .then(result => {
-        this.sendVerificationMail();
-        this.setUserData(result.user);
-        this.afAuth.auth.currentUser.updateProfile({ displayName: name});
-        let user: User = {
-          uid: result.user.uid,
-          displayName: name,
-          email: result.user.email,
-          emailVerified: result.user.emailVerified
-        }
-        this.userService.insert(user);
-      }).catch(error => {
-        this.messageService.addError(`An unexpected error has ocurred while trying to sign up!`);
-        console.error(error);
-      })
   }
 
-  sendVerificationMail() {
-    return this.afAuth.auth.currentUser.sendEmailVerification()
-      .then(() => {
-        this.router.navigate(['verify-email']);
-      })
+  async signUp(name: string, workerId: number, email: string, password: string) {
+    try {
+      const result = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+      this.sendVerificationMail();
+      this.afAuth.auth.currentUser.updateProfile({ displayName: name });
+      const user: User = {
+        uid: result.user.uid,
+        displayName: name,
+        workerid: workerId,
+        email: result.user.email,
+        emailVerified: result.user.emailVerified
+      };
+      this.setUserData(user);
+      this.userService.insert(user);
+    } catch (error) {
+      this.messageService.addError(`An unexpected error has ocurred while trying to sign up!`);
+      console.error(error);
+    }
   }
 
-  forgotPassword(passwordResetEmail) {
-    return this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail)
-      .then(() => {
-        this.messageService.addInfo('Password reset email sent, check your indbox!');
-      }).catch(error => {
-        this.messageService.addError(`And unexpected error has ocurred!`);
-        console.error(error);
-      });
+  async sendVerificationMail() {
+    await this.afAuth.auth.currentUser.sendEmailVerification();
+    this.router.navigate(['verify-email']);
+  }
+
+  async forgotPassword(passwordResetEmail) {
+    try {
+      await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
+      this.messageService.addInfo('Password reset email sent, check your indbox!');
+    } catch (error) {
+      this.messageService.addError(`And unexpected error has ocurred!`);
+      console.error(error);
+    }
   }
 
   get isLoggedIn(): boolean {
@@ -86,14 +85,15 @@ export class AuthService {
     return (user !== null && user.emailVerified !== false) ? true : false;
   }
 
-  setUserData(user) {
+  setUserData(user: User) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userData: User = {
       uid: user.uid,
       email: user.email,
+      workerid: user.workerid,
       displayName: user.displayName,
       emailVerified: user.emailVerified
-    }
+    };
 
     return userRef.set(userData, {
       merge: true
@@ -105,11 +105,9 @@ export class AuthService {
     return user;
   }
 
-  signOut() {
-    return this.afAuth.auth.signOut()
-      .then(() => {
-        localStorage.removeItem('user');
-        this.router.navigate(['sign-in']);
-      })
+  async signOut() {
+    await this.afAuth.auth.signOut();
+    localStorage.removeItem('user');
+    this.router.navigate(['sign-in']);
   }
 }

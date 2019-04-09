@@ -31,7 +31,7 @@ export class UserService {
       .catch((error: any) => {
         this.messageService.addError(`An error has ocurred while updating ${user.displayName}!`);
         console.log(error);
-      })
+      });
   }
 
   getAll() {
@@ -41,7 +41,15 @@ export class UserService {
         map(changes => {
           return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
         })
-      )
+      );
+  }
+
+  get(userId: string) {
+    return this.db.object(`user/${userId}`)
+      .snapshotChanges()
+      .pipe(
+        map(user => ({...user.payload.val()}))
+      );
   }
 
   delete(key: string) {
