@@ -3,6 +3,8 @@ import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces
 import { ReservationService } from '../reservation.service';
 import { ReservationTable } from '../model/reservation-table';
 
+const DATA_TABLE_TITLE = ['Device', 'Name', 'From', 'To'];
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -13,10 +15,11 @@ export class DashboardComponent implements OnInit {
   public timelineChart: GoogleChartInterface = {
     chartType: 'Timeline',
     dataTable: [
-      ['Device', 'Name', 'From', 'To']
+      DATA_TABLE_TITLE,
+      ['Loading...', 'Loading...', 0, 1]
     ]
   };
-  
+
   reservations: ReservationTable[];
 
   constructor(private reservationService: ReservationService) { }
@@ -26,9 +29,12 @@ export class DashboardComponent implements OnInit {
   }
 
   loadChartData(): void {
-    const dataTable = this.timelineChart.dataTable;
+    this.timelineChart.dataTable = [];
+    this.timelineChart.dataTable.push(
+      DATA_TABLE_TITLE
+    );
     this.reservations.map(reservation => {
-      dataTable.push([
+      this.timelineChart.dataTable.push([
         reservation.deviceName,
         reservation.userName,
         reservation.startDate,
