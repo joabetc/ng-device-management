@@ -38,7 +38,9 @@ export class AuthService {
       this.ngZone.run(() => {
         this.router.navigate(['dashboard']);
       });
-      this.userService.get(result.user.uid).subscribe((user: User) => this.setUserData(user));
+      this.userService.get(result.user.uid).subscribe((user: User) => {
+        return this.setUserData(user);
+      });
     } catch (error) {
       this.messageService.addError(`An unexpected error has ocurred while trying to sign in with e-mail: ${email}!`);
       console.error(error);
@@ -95,9 +97,7 @@ export class AuthService {
       emailVerified: user.emailVerified
     };
 
-    return userRef.set(userData, {
-      merge: true
-    });
+    return userRef.set(userData);
   }
 
   getCurrentUser(): User {
