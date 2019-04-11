@@ -9,10 +9,12 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
 import { SecureInnerPagesGuard } from './shared/guard/secure-inner-pages.guard';
 import { AuthGuard } from './shared/guard/auth.guard';
+import { ReservationsComponent } from './reservations/reservations.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'reservations', component: ReservationsComponent, canActivate: [AuthGuard] },
   { path: 'devices', component: DevicesComponent, canActivate: [AuthGuard] },
   { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
   { path: 'sign-in', component: SignInComponent, canActivate: [SecureInnerPagesGuard] },

@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Device } from '../../model/device'
-import { MatSort, MatTableDataSource } from '@angular/material';
+import { MatIconRegistry } from '@angular/material';
 import { DeviceService } from 'src/app/device.service';
 import { DeviceDataService } from '../shared/device-data.service';
-import { DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
+import { DeviceWithId } from 'src/app/model/device-with-id';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'device-list',
@@ -15,17 +15,29 @@ export class DeviceListComponent implements OnInit {
 
   @Input() disableButtons: boolean;
 
-  displayedColumns: string[] = ['name', 'model', 'os', 'actions'];
-  dataSource = new DeviceDataSource(this.deviceService);
-
-  @ViewChild(MatSort) sort: MatSort;
+  devices: DeviceWithId[];
 
   constructor(
     private deviceService: DeviceService,
-    private deviceDataService: DeviceDataService) { }
+    private deviceDataService: DeviceDataService,
+    private iconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer) {
+      iconRegistry.addSvgIcon(
+        'android',
+        sanitizer.bypassSecurityTrustResourceUrl('/assets/img/android_robot.svg'));
+      iconRegistry.addSvgIcon(
+        'ios',
+        sanitizer.bypassSecurityTrustResourceUrl('/assets/img/apple_logo_black.svg'));
+    }
 
   ngOnInit() {
-    //this.dataSource.sort = this.sort;
+    this.getDevices();
+  }
+
+  getDevices() {
+    this.deviceService.getAll().subscribe(res => {
+      this.devices = res as DeviceWithId[];
+    })
   }
 
   delete(key: string) {
@@ -35,15 +47,5 @@ export class DeviceListComponent implements OnInit {
   edit(device: Device, key: string) {
     this.deviceDataService.changeDevice(device, key);
   }
-}
 
-export class DeviceDataSource extends DataSource<any> {
-  constructor(private deviceService: DeviceService) {
-    super();
-  }
-
-  connect(): Observable<any[]> {
-    return this.deviceService.getAll();
-  }
-  disconnect() { }
 }
