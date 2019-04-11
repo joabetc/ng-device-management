@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Device } from 'src/app/model/device';
 import { DeviceService } from 'src/app/device.service';
 import { DeviceDataService } from '../shared/device-data.service';
@@ -47,6 +47,7 @@ export class DeviceEditComponent implements OnInit {
     this.deviceDataService.currentDevice.subscribe(data => {
       this.device = new Device();
       if (data.device && data.key) {
+        this.device.assetNumber = data.device.assetNumber;
         this.device.name = data.device.name;
         this.device.model = data.device.model;
         this.device.os = data.device.os;
