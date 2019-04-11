@@ -64,6 +64,7 @@ export class DeviceEditComponent implements OnInit {
     }
 
     this.device = new Device();
+    this.deviceForm.reset();
   }
 
   searchBrand = (text$: Observable<string>) =>
