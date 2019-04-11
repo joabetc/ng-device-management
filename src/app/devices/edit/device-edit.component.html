@@ -2,10 +2,11 @@
   <div class="form-group">
     <label for="inputAsset" class="col-sm-2 control-label">Asset Number</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control" id="inputAsset" placeholder="Asset Number"
-          [(ngModel)]="device.assetNumber" name="asset" required #asset="ngModel">
+      <input type="number" class="form-control" id="inputAsset" placeholder="Asset Number" [(ngModel)]="device.assetNumber" 
+          name="asset" required #asset="ngModel" [ngModelOptions]="{updateOn: 'blur'}" assetNumberAlreadyTaken>
       <div *ngIf="asset.invalid && (asset.dirty || asset.touched)" class="alert alert-danger">
         <div *ngIf="asset.errors.required">Asset number is required.</div>
+        <div *ngIf="asset.errors.uniqueName">Asset number already taken.</div>
       </div>
     </div>
   </div>

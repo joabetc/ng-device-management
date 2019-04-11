@@ -33,6 +33,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RangeDatepickerComponent } from './shared/components/range-datepicker/range-datepicker.component';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { DeviceNameAlreadyTakenValidator } from './shared/validators/device-name-already-taken.validator';
+import { AssetNumberAlreadyTakenValidator } from './shared/validators/asset-number-already-taken.validator';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { DeviceNameAlreadyTakenValidator } from './shared/validators/device-name
     ReservationEditComponent,
     ReservationListComponent,
     RangeDatepickerComponent,
-    DeviceNameAlreadyTakenValidator
+    DeviceNameAlreadyTakenValidator,
+    AssetNumberAlreadyTakenValidator,
   ],
   imports: [
     BrowserModule,

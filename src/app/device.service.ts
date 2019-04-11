@@ -51,11 +51,19 @@ export class DeviceService {
   }
 
   isNameTaken(name: string) {
-    return this.db.list('device', ref => ref.orderByChild('name').equalTo(name))
-      .valueChanges()
-      .pipe(
-        take(1),
-        map(arr => arr.length ? { deviceNameAvailable: false } : null)
-      );
+    return this.isValueTaken(name, 'name');
+  }
+
+  isAssetNumberTaken(assetNumber: number) {
+    return this.isValueTaken(assetNumber, 'assetNumber');
+  }
+
+  private isValueTaken(value: any, field: string) {
+    return this.db.list('device', ref => ref.orderByChild(field).equalTo(value))
+    .valueChanges()
+    .pipe(
+      take(1),
+      map(arr => arr.length ? { deviceNameAvailable: false } : null)
+    );
   }
 }
