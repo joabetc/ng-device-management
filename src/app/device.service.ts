@@ -1,18 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Device } from './model/device';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
+import { MessagesService } from './shared/services/messages.service';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeviceService {
 
-  constructor(private db: AngularFireDatabase) { }
+  constructor(
+    private db: AngularFireDatabase,
+    private afs: AngularFirestore,
+    private messagesServices: MessagesService) { }
 
   insert(device: Device) {
     this.db.list('device')
       .push(device)
+      .then((result: any) => {
+        this.messagesServices.addSuccess(`Device "${device.name}" sucessfully saved!`);
+      })
       .then((result: any) => {
         console.log(result.key);
       });
@@ -22,8 +31,9 @@ export class DeviceService {
     this.db.list('device')
       .update(key, device)
       .catch((error: any) => {
+        this.messagesServices.addError(`An unexpected error ocurred while updating "${device.name}"`);
         console.error(error);
-      })
+      });
   }
 
   getAll() {
@@ -38,5 +48,14 @@ export class DeviceService {
 
   delete(key: string) {
     this.db.object(`device/${key}`).remove();
+  }
+
+  isNameTaken(name: string) {
+    return this.db.list('device', ref => ref.orderByChild('name').equalTo(name))
+      .valueChanges()
+      .pipe(
+        take(1),
+        map(arr => arr.length ? { deviceNameAvailable: false } : null)
+      );
   }
 }

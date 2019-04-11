@@ -3,6 +3,8 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { User } from '../model/user';
+import { UserService } from 'src/app/user.service';
+import { MessagesService } from './messages.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,9 @@ export class AuthService {
     public afs: AngularFirestore,
     public afAuth: AngularFireAuth,
     public router: Router,
-    public ngZone: NgZone
+    public ngZone: NgZone,
+    private userService: UserService,
+    private messageService: MessagesService
   ) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
@@ -25,45 +29,57 @@ export class AuthService {
         localStorage.setItem('user', null);
         JSON.parse(localStorage.getItem('user'));
       }
-    })
+    });
   }
 
-  signIn(email, password) {
-    return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-      .then(result => {
-        this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
-        });
-        this.setUserData(result.user);
-      }).catch(error => {
-        console.error(error);
+  async signIn(email: string, password: string) {
+    try {
+      const result = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
+      this.ngZone.run(() => {
+        this.router.navigate(['dashboard']);
       });
+      this.userService.get(result.user.uid).subscribe((user: User) => {
+        return this.setUserData(user);
+      });
+    } catch (error) {
+      this.messageService.addError(`An unexpected error has ocurred while trying to sign in with e-mail: ${email}!`);
+      console.error(error);
+    }
   }
 
-  signUp(email, password) {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-      .then(result => {
-        this.sendVerificationMail();
-        this.setUserData(result.user);
-      }).catch(error => {
-        console.error(error);
-      })
+  async signUp(name: string, workerId: number, email: string, password: string) {
+    try {
+      const result = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+      this.sendVerificationMail();
+      this.afAuth.auth.currentUser.updateProfile({ displayName: name });
+      const user: User = {
+        uid: result.user.uid,
+        displayName: name,
+        workerid: workerId,
+        email: result.user.email,
+        emailVerified: result.user.emailVerified
+      };
+      this.setUserData(user);
+      this.userService.insert(user);
+    } catch (error) {
+      this.messageService.addError(`An unexpected error has ocurred while trying to sign up!`);
+      console.error(error);
+    }
   }
 
-  sendVerificationMail() {
-    return this.afAuth.auth.currentUser.sendEmailVerification()
-      .then(() => {
-        this.router.navigate(['verify-email']);
-      })
+  async sendVerificationMail() {
+    await this.afAuth.auth.currentUser.sendEmailVerification();
+    this.router.navigate(['verify-email']);
   }
 
-  forgotPassword(passwordResetEmail) {
-    return this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail)
-      .then(() => {
-        window.alert('Password reset email sent, check your indbox');
-      }).catch(error => {
-        console.error(error);
-      })
+  async forgotPassword(passwordResetEmail) {
+    try {
+      await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
+      this.messageService.addInfo('Password reset email sent, check your indbox!');
+    } catch (error) {
+      this.messageService.addError(`And unexpected error has ocurred!`);
+      console.error(error);
+    }
   }
 
   get isLoggedIn(): boolean {
@@ -71,25 +87,27 @@ export class AuthService {
     return (user !== null && user.emailVerified !== false) ? true : false;
   }
 
-  setUserData(user) {
+  setUserData(user: User) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userData: User = {
       uid: user.uid,
       email: user.email,
+      workerid: user.workerid,
       displayName: user.displayName,
       emailVerified: user.emailVerified
-    }
+    };
 
-    return userRef.set(userData, {
-      merge: true
-    });
+    return userRef.set(userData);
   }
 
-  signOut() {
-    return this.afAuth.auth.signOut()
-      .then(() => {
-        localStorage.removeItem('user');
-        this.router.navigate(['sign-in']);
-      })
+  getCurrentUser(): User {
+    const user: User = JSON.parse(localStorage.getItem('user'));
+    return user;
+  }
+
+  async signOut() {
+    await this.afAuth.auth.signOut();
+    localStorage.removeItem('user');
+    this.router.navigate(['sign-in']);
   }
 }
