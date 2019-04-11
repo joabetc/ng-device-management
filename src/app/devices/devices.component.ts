@@ -25,7 +25,6 @@ export class DevicesComponent implements OnInit {
     } else {
       this.disableButtons = false;
     }
-    console.log($event.target);
   }
 
   newDevice() {
