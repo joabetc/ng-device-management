@@ -8,11 +8,11 @@ import { Directive } from '@angular/core';
   selector: '[deviceNameAlreadyTaken][ngModel],[deviceNameAlreadyTaken][ngControl],[deviceNameAlreadyTaken][ngFormControl]',
   providers: [{
     provide: NG_ASYNC_VALIDATORS,
-    useExisting: DeviceNameAlreadyTaken,
+    useExisting: DeviceNameAlreadyTakenValidator,
     multi: true
   }]
 })
-export class DeviceNameAlreadyTaken implements AsyncValidator {
+export class DeviceNameAlreadyTakenValidator implements AsyncValidator {
 
   constructor(private deviceService: DeviceService) { }
 

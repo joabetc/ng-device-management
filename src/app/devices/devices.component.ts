@@ -10,7 +10,7 @@ import { Device } from '../model/device';
 })
 export class DevicesComponent implements OnInit {
 
-  disableButtons: boolean = false;
+  disableButtons = false;
 
   constructor(
     private deviceService: DeviceService,
@@ -19,15 +19,15 @@ export class DevicesComponent implements OnInit {
   ngOnInit() { }
 
   onDomChange($event: Event): void {
-    let element = $event.target as HTMLElement;
-    if (element.classList.contains("show") || element.classList.contains("collapsing")) {
+    const element = $event.target as HTMLElement;
+    if (element.classList.contains('show') || element.classList.contains('collapsing')) {
       this.disableButtons = true;
     } else {
       this.disableButtons = false;
     }
     console.log($event.target);
   }
-  
+
   newDevice() {
     this.deviceDataService.changeDevice(new Device(), '');
   }
