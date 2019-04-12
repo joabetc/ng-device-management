@@ -93,8 +93,14 @@ export class DeviceEditComponent implements OnInit {
       tap(() => this.modelSearching = false)
     )
 
+  formatter = (x: Device) => x.model;
+
   cancel(): void {
     this.device = new Device();
     this.deviceForm.reset();
+  }
+
+  selectedItem(item) {
+    console.log((item.item.os as string).match(/\S*\s/));
   }
 }
