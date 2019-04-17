@@ -101,6 +101,7 @@ export class DeviceEditComponent implements OnInit {
   }
 
   selectedItem(item) {
-    console.log((item.item.os as string).match(/\S*\s/));
+    this.device.brand = (item.item.brand as string);
+    this.device.os = (item.item.os as string).match(/\S*[\s,;]/)[0].trim().replace(',', '').replace(';', '').toLowerCase();
   }
 }
