@@ -20,6 +20,6 @@ export class DeviceAdapter implements Adapter<Device> {
       model: device.model,
       name: device.name,
       os: device.os
-    }
+    };
   }
 }
