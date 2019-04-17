@@ -1,5 +1,5 @@
 export class Device {
-  assetNumber: 0;
+  assetNumber = 0;
   name = '';
   brand = '';
   model = '';
