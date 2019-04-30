@@ -12,7 +12,7 @@ export class DateStructAdapter implements Adapter<NgbDateStruct> {
       year: date.getFullYear(),
       month: date.getMonth() + 1,
       day: date.getDate()
-    }
+    };
   }
 
   adaptTo(ngbDate: NgbDateStruct): Date {

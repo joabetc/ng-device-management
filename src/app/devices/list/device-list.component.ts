@@ -37,7 +37,7 @@ export class DeviceListComponent implements OnInit {
   getDevices() {
     this.deviceService.getAll().subscribe(res => {
       this.devices = res as DeviceWithId[];
-    })
+    });
   }
 
   delete(key: string) {

@@ -3,8 +3,6 @@ import { Device } from './model/device';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { map, take } from 'rxjs/operators';
 import { MessagesService } from './shared/services/messages.service';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +11,6 @@ export class DeviceService {
 
   constructor(
     private db: AngularFireDatabase,
-    private afs: AngularFirestore,
     private messagesServices: MessagesService) { }
 
   insert(device: Device) {

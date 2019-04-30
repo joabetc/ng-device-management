@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, SimpleChange, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbDatepicker, NgbDate, NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { DateStructAdapter } from '../../date-struct.adapter';
 
