@@ -1,7 +1,7 @@
 import { DeviceAdapter } from './device.adapter';
 import { Device } from '../model/device';
 
-describe('Device.Adapter', () => {
+describe('DeviceAdapter', () => {
   it('should create an instance', () => {
     expect(new DeviceAdapter()).toBeTruthy();
   });
