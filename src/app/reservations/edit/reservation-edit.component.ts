@@ -76,7 +76,7 @@ export class ReservationEditComponent implements OnInit {
         from: this.dateAdapter.adaptFrom(reservation.startDate),
         to: this.dateAdapter.adaptFrom(reservation.endDate)
       };
-    });
+    }, this);
   }
 
   cancel() {
