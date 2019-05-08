@@ -1,4 +1,4 @@
-import { Adapter } from './adapter';
+import { Adapter } from '../adapter';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Injectable } from '@angular/core';
 

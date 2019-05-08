@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbDatepicker, NgbDate, NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
-import { DateStructAdapter } from '../../date-struct.adapter';
+import { DateStructAdapter } from '../../adapters/date-struct.adapter';
 
 @Component({
   selector: 'range-datepicker',

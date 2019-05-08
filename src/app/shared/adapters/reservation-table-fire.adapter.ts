@@ -1,5 +1,5 @@
-import { Adapter } from './adapter';
-import { ReservationTable } from '../model/reservation-table';
+import { Adapter } from '../adapter';
+import { ReservationTable } from '../../model/reservation-table';
 import { DateFireTimestampAdapter } from './date-fire-timestamp.adapter';
 import { Injectable } from '@angular/core';
 

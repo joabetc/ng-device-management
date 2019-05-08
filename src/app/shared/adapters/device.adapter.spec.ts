@@ -1,5 +1,5 @@
 import { DeviceAdapter } from './device.adapter';
-import { Device } from '../model/device';
+import { Device } from '../../model/device';
 
 describe('DeviceAdapter', () => {
   it('should create an instance', () => {

@@ -1,5 +1,5 @@
-import { Adapter } from './adapter';
-import { Device } from '../model/device';
+import { Adapter } from '../adapter';
+import { Device } from '../../model/device';
 
 export class DeviceAdapter implements Adapter<Device> {
 

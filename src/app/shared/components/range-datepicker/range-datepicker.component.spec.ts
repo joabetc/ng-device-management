@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RangeDatepickerComponent } from './range-datepicker.component';
 import { NgbDatepickerModule, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
-import { DateStructAdapter } from '../../date-struct.adapter';
+import { DateStructAdapter } from '../../adapters/date-struct.adapter';
 
 const dateStructAdapterStub = {
   adaptFrom: () => {},
