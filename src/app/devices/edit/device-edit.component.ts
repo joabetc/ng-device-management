@@ -94,7 +94,11 @@ export class DeviceEditComponent implements OnInit {
       tap(() => this.modelSearching = false)
     )
 
-  formatter = (x: Device) => x.model;
+  formatter(value: Device | any) {
+    if (value.model)
+      return value.model;
+    return value;
+  } 
 
   cancel(): void {
     this.device = new Device();
