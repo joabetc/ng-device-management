@@ -48,6 +48,7 @@ export class DeviceEditComponent implements OnInit {
       this.device = new Device();
       if (data.device && data.key) {
         this.device.assetNumber = data.device.assetNumber;
+        this.device.brand = data.device.brand;
         this.device.name = data.device.name;
         this.device.model = data.device.model;
         this.device.os = data.device.os;
