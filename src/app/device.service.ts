@@ -20,7 +20,8 @@ export class DeviceService {
         this.messagesServices.addSuccess(`Device "${device.name}" sucessfully saved!`);
       })
       .then((result: any) => {
-        console.log(result.key);
+        if (result.key)
+          console.log(result.key);
       });
   }
 
