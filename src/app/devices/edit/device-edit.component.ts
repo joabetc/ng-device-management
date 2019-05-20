@@ -43,7 +43,7 @@ export class DeviceEditComponent implements OnInit {
     this.device = new Device();
     this.deviceApiService.getBrands().subscribe((data: ApiResult<Brand[]>) => {
       this.brands = data.data;
-      });
+    });
     this.deviceDataService.currentDevice.subscribe(data => {
       this.device = new Device();
       if (data.device && data.key) {
@@ -52,6 +52,7 @@ export class DeviceEditComponent implements OnInit {
         this.device.name = data.device.name;
         this.device.model = data.device.model;
         this.device.os = data.device.os;
+        this.device.version = data.device.version;
         this.key = data.key;
       }
     });
@@ -64,8 +65,7 @@ export class DeviceEditComponent implements OnInit {
       this.deviceService.insert(this.device);
     }
 
-    this.device = new Device();
-    this.deviceForm.reset();
+    this.reset();
   }
 
   searchBrand = (text$: Observable<string>) =>
@@ -101,12 +101,20 @@ export class DeviceEditComponent implements OnInit {
   } 
 
   cancel(): void {
-    this.device = new Device();
-    this.deviceForm.reset();
+    this.reset();
   }
 
-  selectedItem(item) {
-    this.device.brand = (item.item.brand as string);
-    this.device.os = (item.item.os as string).match(/\S*[\s,;]/)[0].trim().replace(',', '').replace(';', '').toLowerCase();
+  selectItem(event: any) {
+    event.preventDefault();
+    this.device.brand = (event.item.brand as string);
+    this.device.os = (event.item.os as string).match(/\S*[\s,;]/)[0].trim().replace(',', '').replace(';', '').toLowerCase();
+    this.device.version = (event.item.os as string).match(/\d+([\.][\d+]){0,3}(\s\(.*\))?/)[0].trim();
+    this.device.model = event.item.model;
+  }
+
+  private reset() {
+    this.device = new Device();
+    this.key = '';
+    this.deviceForm.reset();
   }
 }

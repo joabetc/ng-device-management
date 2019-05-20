@@ -10,6 +10,7 @@ export class DeviceAdapter implements Adapter<Device> {
     device.model = item.model;
     device.name = item.name;
     device.os = item.os;
+    device.version = item.version;
     return device;
   }
 
@@ -19,7 +20,8 @@ export class DeviceAdapter implements Adapter<Device> {
       brand: device.brand,
       model: device.model,
       name: device.name,
-      os: device.os
+      os: device.os,
+      version: device.version
     };
   }
 }

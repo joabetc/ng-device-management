@@ -44,7 +44,7 @@
       </ng-template>
       <input type="text" id="typehead-http-model" class="form-control" [class.is-invalid]="searchFailed" [(ngModel)]="device.model"
           required #model="ngModel" [ngbTypeahead]="searchModel" placeholder="Model search" name="model"
-          [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectedItem($event)">
+          [resultTemplate]="rt" [inputFormatter]="formatter" [resultFormatter]="formatter" (selectItem)="selectItem($event)">
       <span *ngIf="modelSearching">Searching...</span>
       <div class="invalid-feedback" *ngIf="modelSearchFailed">Sorry, suggestions could not be loaded...</div>
       <div *ngIf="model.invalid && (model.dirty || model.touched)" class="alert alert-danger">
@@ -58,6 +58,13 @@
         <select class="form-control" [(ngModel)]="device.os" name="os" required>
           <option *ngFor="let os of operatingSystems" [ngValue]="os.value">{{os.valueView}}</option>
         </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputVersion" class="col-sm-12 control-label">Version</label>
+    <div class="col-sm-12">
+      <input type="text" id="inputVersion" class="form-control" [(ngModel)]="device.version"
+        placeholder="Version" name="version">
     </div>
   </div>
   <div class="form-group">

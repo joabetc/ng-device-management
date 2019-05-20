@@ -4,4 +4,5 @@ export class Device {
   brand = '';
   model = '';
   os = '';
+  version = '';
 }
