@@ -3,7 +3,7 @@
     <label for="inputAsset" class="col-sm-12 control-label">Asset Number</label>
     <div class="col-sm-12">
       <input type="number" class="form-control" id="inputAsset" placeholder="Asset Number" [(ngModel)]="device.assetNumber" 
-          name="asset" required #asset="ngModel" [ngModelOptions]="{updateOn: 'blur'}" assetNumberAlreadyTaken>
+          name="asset" required #asset="ngModel" [ngModelOptions]="{updateOn: 'blur'}" [assetNumberAlreadyTaken]="editMode">
       <div *ngIf="asset.invalid && (asset.dirty || asset.touched)" class="alert alert-danger">
         <div *ngIf="asset.errors.required">Asset number is required.</div>
         <div *ngIf="asset.errors.uniqueName">Asset number already taken.</div>
@@ -14,7 +14,7 @@
     <label for="inputName" class="col-sm-12 control-label">Name</label>
     <div class="col-sm-12">
       <input type="text" class="form-control" id="inputName" placeholder="Name" [(ngModel)]="device.name" name="name"
-          required minlength="4" #name="ngModel" [ngModelOptions]="{updateOn: 'blur'}" deviceNameAlreadyTaken>
+          required minlength="4" #name="ngModel" [ngModelOptions]="{updateOn: 'blur'}" [deviceNameAlreadyTaken]="editMode">
       <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
         <div *ngIf="name.errors.required">Name is required.</div>
         <div *ngIf="name.errors.minlength">Name must be at least 4 characters long.</div>
@@ -70,7 +70,7 @@
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-12">
       <button type="submit" data-toggle="collapse" data-target="#form-device" class="btn btn-primary"
-        [(disabled)]="!deviceForm.valid">Save</button>
+          [(disabled)]="!editMode && !deviceForm.valid">Save</button>
       <button type="button" data-toggle="collapse" data-target="#form-device" class="btn btn-default"
           (click)="cancel()">Cancel</button>
     </div>

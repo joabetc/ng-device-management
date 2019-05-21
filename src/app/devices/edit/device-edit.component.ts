@@ -25,6 +25,7 @@ export class DeviceEditComponent implements OnInit {
 
   device: Device;
   key = '';
+  editMode = false;
   operatingSystems: OperatingSystem[] = [
     { value: 'android', valueView: 'Android' },
     { value: 'ios', valueView: 'iOS'}
@@ -54,6 +55,7 @@ export class DeviceEditComponent implements OnInit {
         this.device.os = data.device.os;
         this.device.version = data.device.version;
         this.key = data.key;
+        this.editMode = true;
       }
     });
   }
@@ -116,5 +118,6 @@ export class DeviceEditComponent implements OnInit {
     this.device = new Device();
     this.key = '';
     this.deviceForm.reset();
+    this.editMode = false;
   }
 }
