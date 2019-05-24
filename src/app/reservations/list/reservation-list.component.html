@@ -12,8 +12,22 @@
       <tr *ngFor="let reservation of reservations; index as i">
         <th scope="row">{{ i + 1}}</th>
         <td>{{ reservation.deviceName }}</td>
-        <td>{{ reservation.startDate | date:'mediumDate' }}</td>
-        <td>{{ reservation.endDate | date:'mediumDate' }}</td>
+        <td>
+          <div class="d-sm-block d-md-none d-lg-none">
+            {{ reservation.startDate | date:'MMM dd' }}
+          </div>
+          <div class="d-none d-sm-none d-md-block d-lg-block">
+            {{ reservation.startDate | date:'mediumDate' }}
+          </div>
+        </td>
+        <td>
+          <div class="d-sm-block d-md-none d-lg-none">
+            {{ reservation.endDate | date:'MMM dd' }}
+          </div>
+          <div class="d-none d-sm-none d-md-block d-lg-block">
+            {{ reservation.endDate | date:'mediumDate' }}
+          </div>
+        </td>
         <td>
           <div *ngIf="canChange(reservation.userId)">
             <div class="btn-group d-sm-block d-md-none d-lg-none float-right" role="group" aria-label="...">
