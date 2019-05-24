@@ -1,6 +1,10 @@
 import { Adapter } from '../adapter';
 import { Device } from '../../model/device';
+import { Injectable } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root'
+})
 export class DeviceAdapter implements Adapter<Device> {
 
   adaptFrom(item: any): Device {

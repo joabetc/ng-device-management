@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, tap, switchMap, catchError } from 'rxjs/operators';
 import { ApiResult } from 'src/app/shared/model/api-result';
 import { NgForm } from '@angular/forms';
+import { DeviceAdapter } from 'src/app/shared/adapters/device.adapter';
 
 export interface OperatingSystem {
   value: string;
@@ -40,7 +41,8 @@ export class DeviceEditComponent implements OnInit {
   constructor(
     private deviceService: DeviceService,
     private deviceDataService: DeviceDataService,
-    private deviceApiService: DeviceApiService) { }
+    private deviceApiService: DeviceApiService,
+    private deviceAdapter: DeviceAdapter) { }
 
   ngOnInit() {
     this.device = new Device();
@@ -50,12 +52,7 @@ export class DeviceEditComponent implements OnInit {
     this.deviceDataService.currentDevice.subscribe(data => {
       this.device = new Device();
       if (data.device && data.key) {
-        this.device.assetNumber = data.device.assetNumber;
-        this.device.brand = data.device.brand;
-        this.device.name = data.device.name;
-        this.device.model = data.device.model;
-        this.device.os = data.device.os;
-        this.device.version = data.device.version;
+        this.device = this.deviceAdapter.adaptFrom(data.device);
         this.key = data.key;
         this.editMode = true;
         this.assetOldValue = this.device.assetNumber;
