@@ -15,11 +15,15 @@ export class ReservationListComponent implements OnInit {
 
   @Input() reservations: ReservationTable[];
 
+  showButtons = false;
+
   constructor(
     private reservationService: ReservationService,
     private reservatioDataService: ReservationDataService,
     private authService: AuthService
-  ) { }
+  ) {
+    this.authService.isAdmin().then(result => this.showButtons = result);
+  }
 
   ngOnInit() { }
 
@@ -32,6 +36,6 @@ export class ReservationListComponent implements OnInit {
   }
 
   canChange(uid: string) {
-    return this.authService.getCurrentUser().uid === uid;
+    return this.authService.getCurrentUser().uid === uid || this.showButtons;
   }
 }
