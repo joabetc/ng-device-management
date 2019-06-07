@@ -33,6 +33,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RangeDatepickerComponent } from './shared/components/range-datepicker/range-datepicker.component';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { DeviceNameAlreadyTaken } from './shared/validators/device-name-already-taken.validator';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { DeviceNameAlreadyTaken } from './shared/validators/device-name-already-
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     NgbModule,
-    Ng2GoogleChartsModule
+    Ng2GoogleChartsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [AngularFirestore, AngularFireAuth, AuthService],
   bootstrap: [AppComponent]
