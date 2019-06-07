@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "dist/ng-device-management",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/ng-device-management/index.html"
+      }
+    ]
+  }
+}

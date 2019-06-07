@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
     chartType: 'Timeline',
     dataTable: [
       DATA_TABLE_TITLE,
-      ['Loading...', 'Loading...', 0, 1]
+      ['Loading...', 'Loading...', new Date(), new Date()]
     ]
   };
 
@@ -25,14 +25,14 @@ export class DashboardComponent implements OnInit {
   constructor(private reservationService: ReservationService) { }
 
   ngOnInit() {
-    this.getReservations();
-  }
-
-  loadChartData(): void {
     this.timelineChart.dataTable = [];
     this.timelineChart.dataTable.push(
       DATA_TABLE_TITLE
     );
+    this.getReservations();
+  }
+
+  loadChartData(): void {
     this.reservations.map(reservation => {
       this.timelineChart.dataTable.push([
         reservation.deviceName,
@@ -41,13 +41,16 @@ export class DashboardComponent implements OnInit {
         reservation.endDate
       ]);
     });
-    this.timelineChart.component.draw();
   }
 
   getReservations() {
     this.reservationService.getAll().subscribe(res => {
       this.reservations = res as ReservationTable[];
       this.loadChartData();
+
+      if (this.timelineChart.component.wrapper) {
+        this.timelineChart.component.draw();
+      }
     });
   }
 

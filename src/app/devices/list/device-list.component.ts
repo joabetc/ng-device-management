@@ -5,6 +5,7 @@ import { DeviceService } from 'src/app/device.service';
 import { DeviceDataService } from '../shared/device-data.service';
 import { DeviceWithId } from 'src/app/model/device-with-id';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'device-list',
@@ -16,12 +17,15 @@ export class DeviceListComponent implements OnInit {
   @Input() disableButtons: boolean;
 
   devices: DeviceWithId[];
+  showButtons = false;
 
   constructor(
     private deviceService: DeviceService,
     private deviceDataService: DeviceDataService,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer) {
+    private sanitizer: DomSanitizer,
+    private authService: AuthService) {
+      this.authService.isAdmin().then(result => this.showButtons = result);
       iconRegistry.addSvgIcon(
         'android',
         sanitizer.bypassSecurityTrustResourceUrl('/assets/img/android_robot.svg'));
@@ -37,7 +41,7 @@ export class DeviceListComponent implements OnInit {
   getDevices() {
     this.deviceService.getAll().subscribe(res => {
       this.devices = res as DeviceWithId[];
-    })
+    });
   }
 
   delete(key: string) {
@@ -46,6 +50,10 @@ export class DeviceListComponent implements OnInit {
 
   edit(device: Device, key: string) {
     this.deviceDataService.changeDevice(device, key);
+  }
+
+  canChange(uid: string) {
+    return this.showButtons;
   }
 
 }

@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReservationListComponent } from './reservation-list.component';
+import { ReservationService } from 'src/app/reservation.service';
+import { ReservationServiceMock } from 'src/test/ReservationServiceMock';
 
 describe('ReservationListComponent', () => {
   let component: ReservationListComponent;
@@ -8,7 +10,10 @@ describe('ReservationListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReservationListComponent ]
+      declarations: [ ReservationListComponent ],
+      providers: [
+        { provide: ReservationService, useClass: ReservationServiceMock }
+      ]
     })
     .compileComponents();
   }));

@@ -3,8 +3,8 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { MessagesService } from './shared/services/messages.service';
 import { Reservation } from './model/reservation';
 import { map } from 'rxjs/operators';
-import { ReservationFireAdapter } from './shared/reservation-fire.adapter';
-import { ReservationTableFireAdapter } from './shared/reservation-table-fire.adapter';
+import { ReservationFireAdapter } from './shared/adapters/reservation-fire.adapter';
+import { ReservationTableFireAdapter } from './shared/adapters/reservation-table-fire.adapter';
 
 @Injectable({
   providedIn: 'root'

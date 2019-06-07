@@ -1,4 +1,4 @@
-import { Adapter } from './adapter';
+import { Adapter } from '../adapter';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Injectable } from '@angular/core';
 
@@ -12,7 +12,7 @@ export class DateStructAdapter implements Adapter<NgbDateStruct> {
       year: date.getFullYear(),
       month: date.getMonth() + 1,
       day: date.getDate()
-    }
+    };
   }
 
   adaptTo(ngbDate: NgbDateStruct): Date {

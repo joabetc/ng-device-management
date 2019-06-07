@@ -1,6 +1,8 @@
 export class Device {
-  name: string = '';
-  brand: string = '';
-  model: string = '';
-  os: string = '';
+  assetNumber = 0;
+  name = '';
+  brand = '';
+  model = '';
+  os = '';
+  version = '';
 }
