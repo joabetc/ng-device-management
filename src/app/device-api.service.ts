@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Brand } from './model/brand';
 import { environment } from '../environments/environment';
 import { map } from 'rxjs/operators';
+import { Device } from './model/device';
 
 const BRAND_DATA = 'assets/data/brands.json';
 const FONO_API_URL = 'https://fonoapi.freshpixl.com/v1/getdevice';
@@ -35,7 +36,13 @@ export class DeviceApiService {
         .set('brand', brand)
         .set('device', model)
     }).pipe(
-      map(response => Object.values(response).map(data => data.DeviceName))
+      map(response => Object.values(response).map(data => {
+        const device = new Device();
+        device.model = data.DeviceName;
+        device.brand = data.Brand;
+        device.os = data.os;
+        return device;
+      }))
     );
   }
 

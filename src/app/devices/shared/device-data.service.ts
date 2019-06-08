@@ -13,6 +13,6 @@ export class DeviceDataService {
   constructor() { }
 
   changeDevice(device: Device, key: string) {
-    this.deviceSource.next({ device: device, key: key });
+    this.deviceSource.next({ device, key });
   }
 }

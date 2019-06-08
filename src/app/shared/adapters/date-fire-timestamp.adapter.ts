@@ -1,4 +1,4 @@
-import { Adapter } from './adapter';
+import { Adapter } from '../adapter';
 import { firestore } from 'firebase/app';
 import Timestamp = firestore.Timestamp;
 import { Injectable } from '@angular/core';

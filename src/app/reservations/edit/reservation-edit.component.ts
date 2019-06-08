@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { Reservation } from 'src/app/model/reservation';
 import { DateRange } from 'src/app/shared/model/date-range';
 import { ReservationTable } from 'src/app/model/reservation-table';
-import { DateStructAdapter } from 'src/app/shared/date-struct.adapter';
+import { DateStructAdapter } from 'src/app/shared/adapters/date-struct.adapter';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -76,7 +76,7 @@ export class ReservationEditComponent implements OnInit {
         from: this.dateAdapter.adaptFrom(reservation.startDate),
         to: this.dateAdapter.adaptFrom(reservation.endDate)
       };
-    });
+    }, this);
   }
 
   cancel() {

@@ -11,7 +11,7 @@ import { MessagesService } from './messages.service';
 })
 export class AuthService {
   userData: any;
-
+  
   constructor(
     public afs: AngularFirestore,
     public afAuth: AngularFireAuth,
@@ -19,38 +19,38 @@ export class AuthService {
     public ngZone: NgZone,
     private userService: UserService,
     private messageService: MessagesService
-  ) {
-    this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
-      } else {
-        localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
-      }
-    });
-  }
-
-  async signIn(email: string, password: string) {
-    try {
-      const result = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
-      this.ngZone.run(() => {
-        this.router.navigate(['dashboard']);
+    ) {
+      this.afAuth.authState.subscribe(user => {
+        if (user) {
+          this.userData = user;
+          localStorage.setItem('user', JSON.stringify(this.userData));
+          JSON.parse(localStorage.getItem('user'));
+        } else {
+          localStorage.setItem('user', null);
+          JSON.parse(localStorage.getItem('user'));
+        }
       });
-      this.userService.get(result.user.uid).subscribe((user: User) => {
-        return this.setUserData(user);
-      });
-    } catch (error) {
-      this.messageService.addError(`An unexpected error has ocurred while trying to sign in with e-mail: ${email}!`);
-      console.error(error);
     }
-  }
-
-  async signUp(name: string, workerId: number, email: string, password: string) {
-    try {
-      const result = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
-      this.sendVerificationMail();
+    
+    async signIn(email: string, password: string) {
+      try {
+        const result = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
+        this.ngZone.run(() => {
+          this.router.navigate(['dashboard']);
+        });
+        this.userService.get(result.user.uid).subscribe((user: User) => {
+          return this.setUserData(user);
+        });
+      } catch (error) {
+        this.messageService.addError(`An unexpected error has ocurred while trying to sign in with e-mail: ${email}!`);
+        console.error(error);
+      }
+    }
+    
+    async signUp(name: string, workerId: number, email: string, password: string) {
+      try {
+        const result = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+        this.sendVerificationMail();
       this.afAuth.auth.currentUser.updateProfile({ displayName: name });
       const user: User = {
         uid: result.user.uid,
@@ -66,12 +66,12 @@ export class AuthService {
       console.error(error);
     }
   }
-
+  
   async sendVerificationMail() {
     await this.afAuth.auth.currentUser.sendEmailVerification();
     this.router.navigate(['verify-email']);
   }
-
+  
   async forgotPassword(passwordResetEmail) {
     try {
       await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
@@ -81,12 +81,12 @@ export class AuthService {
       console.error(error);
     }
   }
-
+  
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
     return (user !== null && user.emailVerified !== false) ? true : false;
   }
-
+  
   setUserData(user: User) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userData: User = {
@@ -109,5 +109,18 @@ export class AuthService {
     await this.afAuth.auth.signOut();
     localStorage.removeItem('user');
     this.router.navigate(['sign-in']);
+  }
+
+  async isAdmin() {
+    try {
+      const idTokenResult = await this.afAuth.auth.currentUser.getIdTokenResult(true);
+      if (!!idTokenResult.claims.isAdmin) {
+        return true;
+      }
+      return false;
+    } catch(error) {
+      this.messageService.addError(`An unexpected error has ocurred!`);
+      console.error(error);
+    }
   }
 }

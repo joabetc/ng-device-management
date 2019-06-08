@@ -32,8 +32,9 @@ import { ReservationListComponent } from './reservations/list/reservation-list.c
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RangeDatepickerComponent } from './shared/components/range-datepicker/range-datepicker.component';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
-import { DeviceNameAlreadyTaken } from './shared/validators/device-name-already-taken.validator';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { DeviceNameAlreadyTakenValidator } from './shared/validators/device-name-already-taken.validator';
+import { AssetNumberAlreadyTakenValidator } from './shared/validators/asset-number-already-taken.validator';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ReservationEditComponent,
     ReservationListComponent,
     RangeDatepickerComponent,
-    DeviceNameAlreadyTaken
+    DeviceNameAlreadyTakenValidator,
+    AssetNumberAlreadyTakenValidator,
   ],
   imports: [
     BrowserModule,

@@ -3,8 +3,6 @@ import { Device } from './model/device';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { map, take } from 'rxjs/operators';
 import { MessagesService } from './shared/services/messages.service';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +11,6 @@ export class DeviceService {
 
   constructor(
     private db: AngularFireDatabase,
-    private afs: AngularFirestore,
     private messagesServices: MessagesService) { }
 
   insert(device: Device) {
@@ -23,7 +20,8 @@ export class DeviceService {
         this.messagesServices.addSuccess(`Device "${device.name}" sucessfully saved!`);
       })
       .then((result: any) => {
-        console.log(result.key);
+        if (result.key)
+          console.log(result.key);
       });
   }
 
@@ -51,11 +49,19 @@ export class DeviceService {
   }
 
   isNameTaken(name: string) {
-    return this.db.list('device', ref => ref.orderByChild('name').equalTo(name))
-      .valueChanges()
-      .pipe(
-        take(1),
-        map(arr => arr.length ? { deviceNameAvailable: false } : null)
-      );
+    return this.isValueTaken(name, 'name');
+  }
+
+  isAssetNumberTaken(assetNumber: number) {
+    return this.isValueTaken(assetNumber, 'assetNumber');
+  }
+
+  private isValueTaken(value: any, field: string) {
+    return this.db.list('device', ref => ref.orderByChild(field).equalTo(value))
+    .valueChanges()
+    .pipe(
+      take(1),
+      map(arr => arr.length ? { deviceNameAvailable: false } : null)
+    );
   }
 }

@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SignUpComponent } from './sign-up.component';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { AuthServiceMock } from 'src/test/AuthServiceMock';
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
@@ -8,7 +10,10 @@ describe('SignUpComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SignUpComponent ]
+      declarations: [ SignUpComponent ],
+      providers: [
+        { provide: AuthService, useClass: AuthServiceMock }
+      ]
     })
     .compileComponents();
   }));
