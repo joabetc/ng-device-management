@@ -1,4 +1,4 @@
-<div *ngIf="messageService.messages.length">
+<!--<div *ngIf="messageService.messages.length">
     <div *ngFor='let message of messageService.messages; let i = index'
         class="alert alert-dismissible" role="alert" [ngClass]="'alert-' + message.type">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="removeMessage(i)">
@@ -6,4 +6,8 @@
       </button>
       {{message.message}}
     </div>
-</div>
+</div>-->
+<ngb-alert [@openClose]="messages[i].visible ? 'open' : 'closed'" *ngFor='let message of messages; let i = index' 
+    type="{{message.type}}" (close)="removeMessage(i)">
+  {{ message.message }}{{ message.visible }}
+</ngb-alert>
