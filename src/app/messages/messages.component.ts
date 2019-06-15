@@ -1,23 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { MessagesService } from '../shared/services/messages.service';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { trigger, state, style, transition, animate, useAnimation } from '@angular/animations';
 import { timer } from 'rxjs';
 import { Alert } from '../shared/model/alert';
+import { bounceIn, fadeOut } from 'ng-animate';
 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss'],
   animations: [
+    trigger('bounceIn', [
+      transition('hidden => visible', useAnimation(bounceIn))
+    ]),
     trigger('openClose', [
-      state('open', style({
-        opacity: 1
+      transition('open => closed', useAnimation(fadeOut))
+    ]),
+    trigger('shrinkOut', [
+      state('in', style({
+        opacity: '*',
+        height: '*', padding: '*', border: '*', margin: '*'
       })),
-      state('closed', style({
-        opacity: 0
+      state('void', style({
+        opacity: 0,
+        height: 0, padding: 0, border: 0, margin: 0
       })),
-      transition('open => closed', [
-        animate('5s')
+      transition('in => void', [
+        animate('0.5s ease-in-out')
       ])
     ])
   ]
@@ -38,13 +47,21 @@ export class MessagesComponent implements OnInit {
         return;
       }
 
-      alert.visible = true;
+      alert.visible = false;
+      alert.shrink = false;
       this.messages.push(alert);
+      timer(1).subscribe(i => {
+        this.messages.find(x => x === alert).visible = true;
+      });
       timer(5000).subscribe(i => {
         this.messages.find(x => x === alert).visible = false;
       });
-      timer(10000).subscribe(i => {
-        console.log('removing');
+      timer(6000).subscribe(i => {
+        if (!alert.visible && this.messages) {
+          this.messages.find(x => x === alert).shrink = true;
+        }
+      });
+      timer(7000).subscribe(i => {
         this.messages = this.messages.filter(x => x !== alert);
       });
     });
