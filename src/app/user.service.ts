@@ -17,19 +17,22 @@ export class UserService {
   insert(user: User) {
     this.db.object(`user/${user.uid}`).set(user)
       .then((result: any) => {
-        this.messageService.addSuccess(`User "${user.displayName}" successfully saved!`);
+        this.messageService.addSuccess(`The user "${user.displayName}" was successfully saved!`);
       })
       .catch((error: any) => {
-        this.messageService.addError(`An error has ocurred while saving ${user.displayName}!`);
+        this.messageService.addError(`An eunexpected rror has ocurred while saving ${user.displayName}!`);
         console.error(error);
-      })
+      });
   }
 
   update(user: User, key: string) {
     this.db.list('user')
       .update(key, user)
+      .then(() => {
+        this.messageService.addSuccess(`The user "${user.displayName} was succesfully updated!`);
+      })
       .catch((error: any) => {
-        this.messageService.addError(`An error has ocurred while updating ${user.displayName}!`);
+        this.messageService.addError(`An unexpected error has ocurred while updating ${user.displayName}!`);
         console.log(error);
       });
   }
@@ -53,6 +56,12 @@ export class UserService {
   }
 
   delete(key: string) {
-    this.db.object(`user/${key}`).remove();
+    this.db.object(`user/${key}`)
+      .remove()
+      .then(() => this.messageService.addSuccess('User successfully removed!'))
+      .catch((error) => {
+        this.messageService.addError('An unexpected error has ocurred while deleting user!');
+        console.error(error);
+      });
   }
 }

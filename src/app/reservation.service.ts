@@ -22,7 +22,7 @@ export class ReservationService {
     this.db.list('reservation')
       .push(this.reservationAdapter.adaptTo(reservation))
       .then((result: any) => {
-          this.messageService.addSuccess(`Reservation successfully created!`);
+          this.messageService.addSuccess(`The reservation for device ${reservation.deviceName} was successfully created!`);
         })
       .catch((error: any) => {
         this.messageService.addError(`An unexpected error ocurrer while creating the reservation!`);
@@ -33,10 +33,13 @@ export class ReservationService {
   update(reservation: Reservation, key: string) {
     this.db.list('reservation')
       .update(key, this.reservationAdapter.adaptTo(reservation))
+      .then(() => {
+        this.messageService.addSuccess(`The reservation for device ${reservation.deviceName} was successfully updated!`);
+      })
       .catch((error: any) => {
         this.messageService.addError(`An unexpected error ocurrer while updating the reservation!`);
         console.error(error);
-      })
+      });
   }
 
   getAll() {
@@ -45,14 +48,20 @@ export class ReservationService {
       .pipe(
         map(changes => {
           return changes.map(c => (
-            this.reservationTableAdapter.adaptFrom({ 
-              key: c.payload.key, ...c.payload.val() 
+            this.reservationTableAdapter.adaptFrom({
+              key: c.payload.key, ...c.payload.val()
           })));
         })
       );
   }
 
   delete(key: string) {
-    this.db.object(`reservation/${key}`).remove();
+    this.db.object(`reservation/${key}`)
+      .remove()
+      .then(() => this.messageService.addSuccess('Reservation successfully removed!'))
+      .catch((error: any) => {
+        this.messageService.addError('An unexpected error ocurrer while deleting the reservation!');
+        console.error(error);
+      });
   }
 }

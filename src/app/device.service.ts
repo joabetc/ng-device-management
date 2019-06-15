@@ -17,19 +17,22 @@ export class DeviceService {
     this.db.list('device')
       .push(device)
       .then((result: any) => {
-        this.messagesServices.addSuccess(`Device "${device.name}" sucessfully saved!`);
+        this.messagesServices.addSuccess(`The device "${device.name}" was sucessfully saved!`);
       })
-      .then((result: any) => {
-        if (result.key)
-          console.log(result.key);
+      .catch((error: any) => {
+        this.messagesServices.addError(`An unexpected error ocurred while deleting "${device.name}"!`);
+        console.log(error);
       });
   }
 
   update(device: Device, key: string) {
     this.db.list('device')
       .update(key, device)
+      .then(() => {
+        this.messagesServices.addSuccess(`The device "${device.name}" was successfully updated!`);
+      })
       .catch((error: any) => {
-        this.messagesServices.addError(`An unexpected error ocurred while updating "${device.name}"`);
+        this.messagesServices.addError(`An unexpected error ocurred while updating "${device.name}"!`);
         console.error(error);
       });
   }
@@ -45,7 +48,13 @@ export class DeviceService {
   }
 
   delete(key: string) {
-    this.db.object(`device/${key}`).remove();
+    this.db.object(`device/${key}`)
+      .remove()
+      .then(() => this.messagesServices.addSuccess('Device successfully removed!'))
+      .catch((error: any) => {
+        this.messagesServices.addError('An unexpected error ocurred while deleting the device!');
+        console.error(error);
+      });
   }
 
   isNameTaken(name: string) {
