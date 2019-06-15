@@ -71,5 +71,5 @@ export class MessagesComponent implements OnInit {
     this.messageService.remove(index);
     this.messages.splice(index, 1);
   }
-
 }
+
