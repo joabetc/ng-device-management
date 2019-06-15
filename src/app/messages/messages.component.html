@@ -1,6 +1,6 @@
 <ngb-alert *ngFor='let message of messages; let i = index' 
     [@bounceIn]="messages[i].visible ? 'visible' : 'hidden'"
-    [@openClose]="messages[i].visible ? 'open' : 'closed'"
+    [@fadeOut]="messages[i].visible ? 'open' : 'closed'"
     [@shrinkOut]="messages[i].shrink ? 'void' : 'in'"
     type="{{message.type}}" (close)="removeMessage(i)">
   {{ message.message }}

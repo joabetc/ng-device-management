@@ -13,7 +13,7 @@ import { bounceIn, fadeOut } from 'ng-animate';
     trigger('bounceIn', [
       transition('hidden => visible', useAnimation(bounceIn))
     ]),
-    trigger('openClose', [
+    trigger('fadeOut', [
       transition('open => closed', useAnimation(fadeOut))
     ]),
     trigger('shrinkOut', [
