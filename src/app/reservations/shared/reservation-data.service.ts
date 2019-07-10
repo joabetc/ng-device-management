@@ -18,6 +18,6 @@ export class ReservationDataService {
   constructor() { }
 
   changeReservation(reservation: ReservationTable, key: string) {
-    this.reservationSource.next({ reservation: reservation, key: key });
+    this.reservationSource.next({ reservation, key });
   }
 }

@@ -26,7 +26,7 @@ export class AuthServiceMock {
       workerid: 12345,
       displayName: 'XXXXX',
       emailVerified: true
-    }
+    };
     return user;
   }
 

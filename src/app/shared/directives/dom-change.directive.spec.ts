@@ -1,24 +1,24 @@
-import { DomChangeDirective } from './dom-change.directive'
+import { DomChangeDirective } from './dom-change.directive';
 import { ElementRef, Component, DebugElement } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { By } from "@angular/platform-browser";
+import { By } from '@angular/platform-browser';
 
 @Component({
   template: '<input domChange>'
 })
-class TestCompoment {}
+class TestComponent {}
 
 describe('DomChangeDirective', () => {
 
-  let component: TestCompoment;
-  let fixture: ComponentFixture<TestCompoment>;
+  let component: TestComponent;
+  let fixture: ComponentFixture<TestComponent>;
   let inputEl: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ TestCompoment, DomChangeDirective ]
+      declarations: [ TestComponent, DomChangeDirective ]
     });
-    fixture = TestBed.createComponent(TestCompoment);
+    fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     inputEl = fixture.debugElement.query(By.css('input'));
   });

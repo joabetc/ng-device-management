@@ -98,10 +98,11 @@ export class DeviceEditComponent implements OnInit {
     )
 
   formatter(value: Device | any) {
-    if (value.model)
+    if (value.model) {
       return value.model;
+    }
     return value;
-  } 
+  }
 
   cancel(): void {
     this.reset();
@@ -125,10 +126,10 @@ export class DeviceEditComponent implements OnInit {
   }
 
   onAssetChange(searchValue: number ) {
-    this.editMode = searchValue == this.assetOldValue;
+    this.editMode = searchValue === this.assetOldValue;
   }
 
   onNameChange(value: string) {
-    this.editMode = value == this.nameOldValue;
+    this.editMode = value === this.nameOldValue;
   }
 }

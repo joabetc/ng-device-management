@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Device } from '../../model/device'
+import { Device } from '../../model/device';
 import { MatIconRegistry } from '@angular/material';
 import { DeviceService } from 'src/app/device.service';
 import { DeviceDataService } from '../shared/device-data.service';
@@ -55,5 +55,4 @@ export class DeviceListComponent implements OnInit {
   canChange(uid: string) {
     return this.showButtons;
   }
-
 }

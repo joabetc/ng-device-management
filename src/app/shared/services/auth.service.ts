@@ -72,7 +72,7 @@ export class AuthService {
     this.router.navigate(['verify-email']);
   }
 
-  async forgotPassword(passwordResetEmail) {
+  async forgotPassword(passwordResetEmail: string) {
     try {
       await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
       this.messageService.addInfo('Password reset email sent, check your indbox!');
@@ -113,12 +113,12 @@ export class AuthService {
 
   async isAdmin() {
     try {
-      const idTokenResult = await this.afAuth.auth.currentUser.getIdTokenResult(true);
+      const idTokenResult = await this.userData.getIdTokenResult(true);
       if (!!idTokenResult.claims.isAdmin) {
         return true;
       }
       return false;
-    } catch(error) {
+    } catch (error) {
       this.messageService.addError(`An unexpected error has ocurred!`);
       console.error(error);
     }

@@ -1,4 +1,4 @@
-import { TestBed } from "@angular/core/testing";
+import { TestBed } from '@angular/core/testing';
 import { DateFireTimestampAdapter } from './date-fire-timestamp.adapter';
 import { ReservationTableFireAdapter } from './reservation-table-fire.adapter';
 

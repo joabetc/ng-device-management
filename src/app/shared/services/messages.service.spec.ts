@@ -14,5 +14,5 @@ describe('MessagesService', () => {
     const service: MessagesService = TestBed.get(MessagesService);
     service.addError('Error');
     expect(service.messages.length).toBeGreaterThan(0);
-  })
+  });
 });

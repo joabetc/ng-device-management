@@ -14,8 +14,8 @@ import { Directive, Input, forwardRef } from '@angular/core';
 })
 export class AssetNumberAlreadyTakenValidator implements AsyncValidator {
 
-  @Input('assetNumberAlreadyTaken') assetNumberAlreadyTaken: boolean;
-  
+  @Input() assetNumberAlreadyTaken: boolean;
+
   constructor(private deviceService: DeviceService) { }
 
   validate(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {

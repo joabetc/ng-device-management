@@ -14,7 +14,7 @@ import { Directive, Input } from '@angular/core';
 })
 export class DeviceNameAlreadyTakenValidator implements AsyncValidator {
 
-  @Input('deviceNameAlreadyTaken') deviceNameAlreadyTaken: boolean;
+  @Input() deviceNameAlreadyTaken: boolean;
 
   constructor(private deviceService: DeviceService) { }
 

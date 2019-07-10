@@ -1,4 +1,4 @@
-import { ReservationFireAdapter } from "./reservation-fire.adapter";
+import { ReservationFireAdapter } from './reservation-fire.adapter';
 import { TestBed } from '@angular/core/testing';
 import { DateFireTimestampAdapter } from './date-fire-timestamp.adapter';
 

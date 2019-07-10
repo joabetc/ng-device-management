@@ -14,6 +14,6 @@ export class DateFireTimestampAdapter implements Adapter<Timestamp> {
 
   adaptTo(fireTimestamp: Timestamp): Date {
     const millisec = fireTimestamp.seconds * 1e3 + (fireTimestamp.nanoseconds || 0) / 1e6;
-    return new Date(millisec)
+    return new Date(millisec);
   }
 }

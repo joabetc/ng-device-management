@@ -31,6 +31,6 @@ export class ReservationFireAdapter implements Adapter<Reservation> {
       userName: reservation.userName,
       startDate: this.dateFiretimestampAdapter.adaptFrom(reservation.startDate),
       endDate: this.dateFiretimestampAdapter.adaptFrom(reservation.endDate)
-    }
+    };
   }
 }
