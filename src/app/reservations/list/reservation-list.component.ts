@@ -22,7 +22,8 @@ export class ReservationListComponent implements OnInit {
     private reservatioDataService: ReservationDataService,
     private authService: AuthService
   ) {
-    this.authService.isAdmin().then(result => this.showButtons = result);
+    // this.authService.isAdmin().then(result => this.showButtons = result);
+    this.showButtons = this.authService.admin;
   }
 
   ngOnInit() { }

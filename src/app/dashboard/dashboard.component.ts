@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 import { ReservationService } from '../reservation.service';
 import { ReservationTable } from '../model/reservation-table';
+import { AuthService } from '../shared/services/auth.service';
 
 const DATA_TABLE_TITLE = ['Device', 'Name', 'From', 'To'];
 
@@ -22,7 +23,9 @@ export class DashboardComponent implements OnInit {
 
   reservations: ReservationTable[];
 
-  constructor(private reservationService: ReservationService) { }
+  constructor(
+    private reservationService: ReservationService,
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.timelineChart.dataTable = [];
@@ -30,6 +33,7 @@ export class DashboardComponent implements OnInit {
       DATA_TABLE_TITLE
     );
     this.getReservations();
+    this.authService.isAdmin();
   }
 
   loadChartData(): void {

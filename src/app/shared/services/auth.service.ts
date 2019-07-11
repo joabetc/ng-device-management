@@ -11,6 +11,7 @@ import { MessagesService } from './messages.service';
 })
 export class AuthService {
   userData: any;
+  admin = false;
 
   constructor(
     public afs: AngularFirestore,
@@ -115,9 +116,8 @@ export class AuthService {
     try {
       const idTokenResult = await this.userData.getIdTokenResult(true);
       if (!!idTokenResult.claims.isAdmin) {
-        return true;
+        this.admin = true;
       }
-      return false;
     } catch (error) {
       this.messageService.addError(`An unexpected error has ocurred!`);
       console.error(error);

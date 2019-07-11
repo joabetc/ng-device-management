@@ -25,7 +25,8 @@ export class DeviceListComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     private authService: AuthService) {
-      this.authService.isAdmin().then(result => this.showButtons = result);
+      // this.authService.isAdmin().then(result => this.showButtons = result);
+      this.showButtons = this.authService.admin;
       iconRegistry.addSvgIcon(
         'android',
         sanitizer.bypassSecurityTrustResourceUrl('/assets/img/android_robot.svg'));
