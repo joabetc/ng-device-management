@@ -31,4 +31,6 @@ export class AuthServiceMock {
   }
 
   async signOut() { }
+
+  async isAdmin() { }
 }

@@ -14,4 +14,8 @@ export class DeviceServiceMock {
   }
 
   delete(key: string) { }
+
+  isAssetNumberTaken(assetNumber: number) {
+    return of(true);
+  }
 }

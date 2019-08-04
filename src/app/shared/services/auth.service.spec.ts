@@ -14,7 +14,6 @@ const mockUser$ = of(fixtureUser);
 const angularFirestoreStub = { doc: () => {} };
 const angularFireAuthStub = { authState: mockUser$ };
 
-
 describe('AuthService', () => {
   beforeEach(() => TestBed.configureTestingModule({
       providers: [

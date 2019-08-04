@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { UserService } from './user.service';
 import { of } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const fixtureUser = [];
 
@@ -15,7 +16,8 @@ describe('UserService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: AngularFireDatabase, useValue: angularFireDatavaseStub }
-      ]
+      ],
+      imports: [ RouterTestingModule ]
     });
   });
 

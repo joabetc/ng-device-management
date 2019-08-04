@@ -5,6 +5,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { AuthService } from './shared/services/auth.service';
 
 import { AuthServiceMock } from '../test/AuthServiceMock';
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 
 describe('AppComponent', () => {
   let app: AppComponent;
@@ -17,7 +18,8 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        MessagesComponent
+        MessagesComponent,
+        NgbAlert
       ],
       providers: [
         { provide: AuthService, useClass: AuthServiceMock }
