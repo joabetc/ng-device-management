@@ -1,4 +1,4 @@
 export interface ApiResult<T> {
-    data: T;
-    error: any;
+  data: T;
+  error: any;
 }

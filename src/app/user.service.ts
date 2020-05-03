@@ -11,15 +11,15 @@ export class UserService {
 
   constructor(
     private db: AngularFireDatabase,
-    private messageService: MessagesService
+    protected messageService: MessagesService
   ) { }
 
   insert(user: User) {
     this.db.object(`user/${user.uid}`).set(user)
-      .then((result: any) => {
-        this.messageService.addSuccess(`The user "${user.displayName}" was successfully saved!`);
-      })
-      .catch((error: any) => {
+    .then((result: any) => {
+      this.messageService.addSuccess(`The user "${user.displayName}" was successfully saved!`);
+    })
+    .catch((error: any) => {
         this.messageService.addError(`An eunexpected rror has ocurred while saving ${user.displayName}!`);
         console.error(error);
       });
@@ -42,7 +42,7 @@ export class UserService {
       .snapshotChanges()
       .pipe(
         map(changes => {
-          return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+          return changes.map(c => ({ key: c.payload.key, ...c.payload.val() as object }));
         })
       );
   }
@@ -51,7 +51,7 @@ export class UserService {
     return this.db.object(`user/${userId}`)
       .snapshotChanges()
       .pipe(
-        map(user => ({...user.payload.val()}))
+        map(user => ({...user.payload.val() as object}))
       );
   }
 
