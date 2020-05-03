@@ -98,6 +98,9 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.json"
+            ],
+            "codeCoverageExclude": [
+              "src/test/**/*.ts"
             ]
           }
         },
